@@ -1,7 +1,7 @@
 # Compilers vars
 CC=gcc
 CPPFLAGS=
-CFLAGS= `sdl2-config --libs --cflags` -ggdb3 -O0 --std=c99 -Wall
+CFLAGS= `pkg-config --libs --cflags sdl2` -I/usr/local/include/freetype
 LDFLAGS=
 LDLIBS= -lm
 
@@ -9,7 +9,8 @@ SRC= src/main.c
 DEP= ${SRC:.c=.d}
 PRG= ${SRC:.c=}
 
-all: ${PRG}
+all: 
+	$ gcc src/main.c -o src/main `pkg-config --libs --cflags sdl2` -I/usr/local/include/freetype -lm
 
 -include ${DEP}
 

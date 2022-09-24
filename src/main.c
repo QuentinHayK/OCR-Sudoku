@@ -420,6 +420,17 @@ void Get_Data_From_File(struct Data *data_i, char file[]) {
 }
 
 
+
+
+void SDL_ExitWithError(const char *message) {
+  SDL_Log("ERROR : %s > %s\n", message, SDL_GetError());
+  SDL_Quit();
+  exit(EXIT_FAILURE);
+}
+
+
+
+
 /* --------- MAIN --------- */
 
 int main(int argc, char **argv) 
@@ -428,17 +439,35 @@ int main(int argc, char **argv)
 	srand(time(NULL));
 	
 	// Initialize the SDL lib...
-    SDL_version nb;
-    SDL_VERSION(&nb);	
+  SDL_version nb;
+  SDL_VERSION(&nb);	
 	
 	
 
-    printf("Bienvenue sur la SDL %d.%d.%d !\n", nb.major, nb.minor, nb.patch);
+  printf("Bienvenue sur la SDL %d.%d.%d !\n", nb.major, nb.minor, nb.patch);
 	
 	
+  SDL_Window *window = NULL;
+
+  // Launch SDL
+  if (SDL_Init(SDL_INIT_VIDEO) != 0)
+    SDL_ExitWithError("Initialisation SDL");
+
+  // Create window
+  window = SDL_CreateWindow("Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, 0);
+
+  if (window == NULL)
+    SDL_ExitWithError("Error creating window");
+
+  SDL_Delay(6000);
+
+  SDL_DestroyWindow(window);
+  SDL_Quit();
+
+
 	// NN...
 	struct NeuralNetwork NN;
-	int layers_size[] = {2, 50, 2}; // 2 inputs nodes, 1 hidden layer of 3 nodes and 2 outputs nodes
+	int layers_size[] = {2, 50, 2}; // 2 inputs nodes, 1 hidden layer of 50 nodes and 2 outputs nodes
 	Init_Neural_Network(&NN, 3, layers_size);
 	
 	
@@ -520,7 +549,7 @@ int main(int argc, char **argv)
 	
 	printf("\n--------------------------------------------------------\n");
 	
-	
-    return 0;
+
+  return 0;
 }
 

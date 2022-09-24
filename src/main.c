@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <SDL_image.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -439,31 +440,43 @@ int main(int argc, char **argv)
 	srand(time(NULL));
 	
 	// Initialize the SDL lib...
-  SDL_version nb;
-  SDL_VERSION(&nb);	
-	
-	
+  int quit = 0;
+  SDL_Event event;
+ 
+  SDL_Init(SDL_INIT_VIDEO);
+  IMG_Init(IMG_INIT_JPG);
+ 
+  SDL_Window * window = SDL_CreateWindow("SDL2 Displaying Image",
+  SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, 0);
+ 
+  SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, 0);
+  SDL_Surface * image = IMG_Load("data/digits/0/img_1.jpg");
+  SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, image);
+ 
+  while (quit != 1)
+  {
+      SDL_WaitEvent(&event);
 
-  printf("Bienvenue sur la SDL %d.%d.%d !\n", nb.major, nb.minor, nb.patch);
-	
-	
-  SDL_Window *window = NULL;
-
-  // Launch SDL
-  if (SDL_Init(SDL_INIT_VIDEO) != 0)
-    SDL_ExitWithError("Initialisation SDL");
-
-  // Create window
-  window = SDL_CreateWindow("Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, 0);
-
-  if (window == NULL)
-    SDL_ExitWithError("Error creating window");
-
-  SDL_Delay(6000);
-
+      switch (event.type)
+      {
+          case SDL_QUIT:
+          quit = 1;
+          break;
+      }
+ 
+      //SDL_Rect dstrect = { 5, 5, 320, 240 };
+      //SDL_RenderCopy(renderer, texture, NULL, &dstrect);
+      SDL_RenderCopy(renderer, texture, NULL, NULL);
+      SDL_RenderPresent(renderer);
+  }
+ 
+  SDL_DestroyTexture(texture);
+  SDL_FreeSurface(image);
+  SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
+  
+  IMG_Quit(); 
   SDL_Quit();
-
 
 	// NN...
 	struct NeuralNetwork NN;
@@ -530,7 +543,8 @@ int main(int argc, char **argv)
 			//printf("Cost after gradient descent : %f\n", cost);
 			
 			
-			//Export_NN(NN, "NN.txt");
+			Export_NN(&NN, "NN.txt");
+      printf("NN has been exported.");
 		}
 		else if (strcmp(argv[1], "--test") == 0 ) {
 			IMPORT_NN(&NN, "NN.txt");
@@ -552,4 +566,3 @@ int main(int argc, char **argv)
 
   return 0;
 }
-

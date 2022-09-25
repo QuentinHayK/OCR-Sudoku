@@ -10,6 +10,13 @@
   <img src="https://img.shields.io/github/last-commit/QuentinHayK/OCR-Sudoku">
 </p>
 
+<p align="center">
+  <a href="#key-features">Key Features</a> •
+  <a href="#requirement">Requirement</a> •
+  <a href="#installation">Installation</a> •
+   <a href="#usage">Usage</a>
+</p>
+
 # OCR-Sudoku
 Developped in C with ❤ by <a href="https://www.epita.fr" target="_blank"> Epita </a> students.
 

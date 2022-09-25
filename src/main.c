@@ -478,14 +478,56 @@ int main(int argc, char **argv)
   IMG_Quit(); 
   SDL_Quit();
 
+
+
+  // Args
+  /*
+  char layers[128] = "2, 50, 2";
+  char folder[64] = "XOR";
+  char save[64] = "NN.txt";
+
+  if (strcmp(argv[1], "--train") == 0) // Learn
+  {
+      for (int i = 0; i < 128; i++) {
+          layers[i] = argv[2][i];
+          folder[i] = argv[3][i];
+          save[i] = argv[4][i];
+      }
+  }
+
+  if (strcmp(argv[1], "--test") == 0) // Import save
+  {
+      for (int i = 0; i < 128; i++) {
+          layers[i] = argv[2][i];
+          save[i] = argv[3][i];
+      }
+  }
+  */
+
+
 	// NN...
 	struct NeuralNetwork NN;
-	int layers_size[] = {2, 50, 2}; // 2 inputs nodes, 1 hidden layer of 50 nodes and 2 outputs nodes
+	int layers_size[128]; // 2 inputs nodes, 1 hidden layer of 50 nodes and 2 outputs nodes
+
+  int temp = 0;
+  int acc = 0;
+  for (int i = 0; argv[2][i] != 0; i++) {
+      if (argv[2][i] == ',') {
+          layers_size[acc] = temp;
+          temp = 0;
+          acc++;
+      }
+      else if (argv[2][i] != ' ') {
+          temp = 10*temp + argv[2][i] - '0';
+      }
+  }
+  layers_size[acc] = temp;
+
 	Init_Neural_Network(&NN, 3, layers_size);
 	
 	
 	if (argc > 1) {
-		if (strcmp(argv[1], "--learn") == 0) {
+		if (strcmp(argv[1], "--train") == 0) {
 			/* We need to train our Neural network on a dataset, so we need to make one */
 			/*
 			struct DataSet data = { 11, {
@@ -510,7 +552,7 @@ int main(int argc, char **argv)
 			
 			for (int i = 0; i < data.length; i++) {
 				char text[128];
-				snprintf(text, 128, "data/XOR/%u.txt", i);
+				snprintf(text, 128, "data/%s/%u.txt", argv[3], i);
 				Get_Data_From_File(&data.data_set[i], text);
 			}
 			
@@ -543,11 +585,11 @@ int main(int argc, char **argv)
 			//printf("Cost after gradient descent : %f\n", cost);
 			
 			
-			Export_NN(&NN, "NN.txt");
+			Export_NN(&NN, argv[4]);
       printf("NN has been exported.");
 		}
 		else if (strcmp(argv[1], "--test") == 0 ) {
-			IMPORT_NN(&NN, "NN.txt");
+			IMPORT_NN(&NN, argv[3]);
 		}
 	}
 	

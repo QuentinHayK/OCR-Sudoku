@@ -22,11 +22,11 @@ clean:
 run:
 	src/main
 	
-run-learn:
-	src/main --learn
+run-train:
+	src/main --train "$(nn)" "$(folder)" "$(save)"
 	
 run-test:
-	src/main --test
+	src/main --test "$(nn)" "$(save)"
 
 # END Makefile
 

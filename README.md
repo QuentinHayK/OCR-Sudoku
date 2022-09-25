@@ -48,11 +48,11 @@ $ make
 # Run program without parameters
 $ make run
 
-# Run program to train a new Neural Network
-$ make run-learn
+# Run program to train a new Neural Network (folder must be in data/ folder) and layerI are integers (number of nodes p/ layer)
+$ make run-train nn="layer1, layer2, ..., layerN" folder="folder_name" save="save_NN.txt"
 
 # Run program to test the last saved Neural Network
-$ make run-test
+$ make run-test nn="layer1, layer2, ..., layerN" save="save_NN.txt"
 
 # Clean folders
 $ make clean

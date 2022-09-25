@@ -1,4 +1,4 @@
-# OCR-Sudokiu
+# OCR-Sudoku
 Developped in C for EPITA school.
 
 ## Prerequies

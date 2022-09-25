@@ -1,3 +1,7 @@
+<h1 align="center">
+  <img src="https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.png" width="200">
+</h1>
+
 # OCR-Sudoku
 Developped in C for EPITA school.
 

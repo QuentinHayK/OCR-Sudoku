@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="banner.jpg" width="200">
+  <img src="banner.jpg" width="1000">
 </h1>
 
 # OCR-Sudoku

@@ -1,8 +1,22 @@
 # OCR-Sudokiu
+Developped in C for EPITA school.
 
-Commands :
-  - make (to compile)
-  - make run (to run without parameters)
-  - make run-learn (to run the learning of the Neural Network)
-  - make run-test (to test the Neural Network)
-  - make clean (to clean folders)
+## Prerequies
+```bash
+$ sudo apt-get install libsdl1.2-dev
+$ sudo apt install libsdl2-image-dev 
+```
+
+## Installation
+```bash
+git clone https://github.com/QuentinHayK/OCR-Sudoku
+```
+
+## Usage
+```bash
+$ make (to compile)
+$ make run (to run without parameters)
+$ make run-learn (to run the learning of the Neural Network)
+$ make run-test (to test the Neural Network)
+$ make clean (to clean folders)
+```

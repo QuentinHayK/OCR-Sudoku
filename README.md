@@ -2,10 +2,24 @@
   <img src="banner.jpg" width="1000">
 </h1>
 
-# OCR-Sudoku
-Developped in C for EPITA school.
+<h4 align="center">A minimal OCR to complete your SUDOKU grids.</h4>
 
-## Prerequies
+<p align="center">
+  <img src="https://img.shields.io/github/repo-size/QuentinHayK/OCR-Sudoku">
+  <img src="https://img.shields.io/github/downloads/QuentinHayK/OCR-Sudoku/total">
+  <img src="https://img.shields.io/github/last-commit/QuentinHayK/OCR-Sudoku">
+</p>
+
+# OCR-Sudoku
+Developped in C with ❤ by <a href="https://www.epita.fr" target="_blank"> Epita </a> students.
+
+## Key Features
+
+* Train a `Neural Network`
+* Test your `Neural Network`
+  - Some `data` are provided with the project
+
+## Requirement
 ```bash
 $ sudo apt-get install libsdl1.2-dev
 $ sudo apt install libsdl2-image-dev 
@@ -13,14 +27,26 @@ $ sudo apt install libsdl2-image-dev
 
 ## Installation
 ```bash
-git clone https://github.com/QuentinHayK/OCR-Sudoku
+# Clone this repository
+$ git clone https://github.com/QuentinHayK/OCR-Sudoku
 ```
+> **Note**
+> The project was made for `linux` only, we can't help you if you have any trouble with other OS.
 
 ## Usage
 ```bash
-$ make (to compile)
-$ make run (to run without parameters)
-$ make run-learn (to run the learning of the Neural Network)
-$ make run-test (to test the Neural Network)
-$ make clean (to clean folders)
+# Compile code
+$ make
+
+# Run program without parameters
+$ make run
+
+# Run program to train a new Neural Network
+$ make run-learn
+
+# Run program to test the last saved Neural Network
+$ make run-test
+
+# Clean folders
+$ make clean
 ```

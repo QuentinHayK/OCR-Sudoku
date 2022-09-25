@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.png" width="200">
+  <img src="banner.jpg" width="200">
 </h1>
 
 # OCR-Sudoku

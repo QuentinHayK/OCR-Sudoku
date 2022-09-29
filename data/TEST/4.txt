@@ -1,6 +1,7 @@
-1
-0
+2
+2
 // OUTPUTS
 1
+0
 // LABEL
-1
+"Black"

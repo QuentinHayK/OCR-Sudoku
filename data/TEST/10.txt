@@ -1,6 +1,7 @@
-1
-0
+5
+5
 // OUTPUTS
+0
 1
 // LABEL
-1
+"Red"

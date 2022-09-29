@@ -1,7 +1,6 @@
 0
 1
 // OUTPUTS
-0
 1
 // LABEL
 1

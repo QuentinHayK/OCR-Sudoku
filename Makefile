@@ -10,7 +10,7 @@ DEP= ${SRC:.c=.d}
 PRG= ${SRC:.c=}
 
 all: 
-	$ gcc src/main.c src/layer.c src/nn.c src/functions.c -o src/main `pkg-config --libs --cflags sdl2` -I/usr/local/include/freetype -lm -lSDL2_image
+	$ gcc src/main.c src/layer.c src/nn.c src/functions.c src/user_inputs_functions.c -o src/main `pkg-config --libs --cflags sdl2` -I/usr/local/include/freetype -lm -lSDL2_image
 
 -include ${DEP}
 

@@ -3,14 +3,14 @@
 /* --------- DATA --------- */
 
 struct Data {
-	double input[2];
-	double expected_output[64]; // Output nodes wanted
-	char label[64];
+    double input[64];
+	double expected_output[10]; // Output nodes wanted
+	char label[10];
 };
 
 /* --------- DATA SET --------- */
 
 struct DataSet {
 	int length;
-	struct Data data_set[1024];
+	struct Data data_set[100];
 };

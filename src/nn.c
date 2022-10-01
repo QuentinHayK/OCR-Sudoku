@@ -24,7 +24,7 @@ double Cost_Data_NN(struct NeuralNetwork * NN, struct Data data)
 	double cost = 0;
 	
 	
-	for (int i = 0; i < NN->layers_size[NN->num_layers-2]; i++) 
+	for (int i = 0; i < NN->layers_size[NN->num_layers-1]; i++) 
     {
 		cost += Node_Cost(res[i], data.expected_output[i]);
 	}
@@ -39,12 +39,12 @@ double *Calculate_Outputs_NN(struct NeuralNetwork * NN, double input[])
 {
 	Calculate_Outputs_Layer(&NN->layers[0], input);
 
-	for (int i = 1; i < NN->num_layers-1; i++) 
+	for (int i = 1; i < NN->num_layers; i++) 
     {
 		Calculate_Outputs_Layer(&NN->layers[i], NN->layers[i-1].outputs);
 	}
 
-	return NN->layers[NN->num_layers-2].outputs;
+    return NN->layers[NN->num_layers-2].outputs;
 }
 
 
@@ -70,19 +70,19 @@ void Apply_All_Gradients_NN(struct NeuralNetwork *NN, double learning_rate) {
 
 void Gradient_Descent_NN(struct NeuralNetwork * NN, struct DataSet training_data, double learning_rate)
 {
-    double h = 0.01;
+    double h = 0.001;
     double original_cost = Cost_DataSet_NN(NN, training_data);
 
     for (int l = 0; l < NN->num_layers; l++)
     {
-        for (int i = 0; i < NN->layers_size[0]; i++)
+        for (int i = 0; i < NN->layers[l].num_nodes_in; i++)
         {
-            for (int j = 0; j < NN->layers_size[NN->num_layers-1]; j++)
+            for (int j = 0; j < NN->layers[l].num_nodes_out; j++)
             {
-                NN->layers[l].weights[i * NN->layers_size[NN->num_layers-1] + j] += h;
+                NN->layers[l].weights[i * NN->layers[l].num_nodes_out + j] += h;
                 double delta_cost = Cost_DataSet_NN(NN, training_data) - original_cost;
-                NN->layers[l].weights[i * NN->layers_size[NN->num_layers-1] + j] -= h;
-                NN->layers[l].cost_gradient_weights[i * NN->layers_size[NN->num_layers - 1] + j] = delta_cost / h;
+                NN->layers[l].weights[i * NN->layers[l].num_nodes_out + j] -= h;
+                NN->layers[l].cost_gradient_weights[i * NN->layers[l].num_nodes_out + j] = delta_cost / h;
             }
 
             NN->layers[l].biases[i] += h;

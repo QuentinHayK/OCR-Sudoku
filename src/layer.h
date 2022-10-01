@@ -6,16 +6,16 @@ struct Layer {
     int num_nodes_in;
     int num_nodes_out;
 
-    double weights[4096];
-    double biases[64];
+    double weights[10000];
+    double biases[10000];
 
-    double outputs[64];
+    double outputs[10000];
 
-    double cost_gradient_weights[4096];
-    double cost_gradient_biases[64];
+    double cost_gradient_weights[10000];
+    double cost_gradient_biases[10000];
 
-    double weighted_inputs[64];
-    double inputs[64];	
+    double weighted_inputs[10000];
+    double inputs[1000];	
 };
 
 void Init_Layer(struct Layer *layer, int num_nodes_in, int num_nodes_out);

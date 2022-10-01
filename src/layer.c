@@ -50,7 +50,8 @@ void Apply_Gradients_Layer(struct Layer *layer, double learning_rate) {
 		layer->biases[i] -= layer->cost_gradient_biases[i] * learning_rate;
 
 		for (int j = 0; j < layer->num_nodes_in; j++) {
-			layer->weights[j * layer->num_nodes_in + i] -= layer->cost_gradient_weights[j * layer->num_nodes_in + i] * learning_rate;
-		}
+			layer->weights[i * layer->num_nodes_in + j] -= layer->cost_gradient_weights[i * layer->num_nodes_in + j] * learning_rate;
+        }
+
 	}
 }

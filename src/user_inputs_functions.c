@@ -16,11 +16,12 @@ void Export_NN(struct NeuralNetwork *NN, char file[]) {
 		{
 			for (int j = 0; j < NN->layers[l].num_nodes_out; j++)
 			{
-				fprintf(out, "%f\n", NN->layers[l].weights[j*NN->layers[l].num_nodes_in + i]);
+				fprintf(out, "%f\n", NN->layers[l].weights[i*NN->layers[l].num_nodes_out + j]);
 			}
 			
-			fprintf(out, "%f\n", NN->layers[l].biases[i]);
 		}
+
+        printf("\n");
 	}
 	
 	fclose(out);
@@ -43,7 +44,7 @@ void Import_NN(struct NeuralNetwork *NN, char file[]) {
 			for (int j = 0; j < NN->layers[l].num_nodes_out; j++)
 			{
 				fgets(line, 1000, in);
-				NN->layers[l].weights[j*NN->layers[l].num_nodes_in + i] = strtod(line, &rest);
+				NN->layers[l].weights[i*NN->layers[l].num_nodes_out + j] = strtod(line, &rest);
 			}
 			
 			fgets(line, 1000, in);

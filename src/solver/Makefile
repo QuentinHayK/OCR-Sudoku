@@ -1,14 +1,18 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -pedantic-errors -O2
+CPPFLAGS =
+
+LDFLAGS =
+LDLIBS =
 
 SRC = main.c read_file.c
-OBJ = {SRC:.c=.o}
+OBJ = ${SRC:.c=.o}
 EXEC = main
 
 all : ${EXEC}
+	@echo ${EXEC}
 
-${EXEC} : main.o
-	${OBJ}
+${EXEC} : ${OBJ}
 
 clean :
 	${RM} ${OBJ} ${EXEC}

@@ -1,22 +1,24 @@
 # Compilers vars
 CC=gcc
-CPPFLAGS=
+CPPFLAGS= -g
 CFLAGS= `pkg-config --libs --cflags sdl2` -I/usr/local/include/freetype -lSDL2_image
 
 LDFLAGS=
 LDLIBS= -lm
 
-SRC= src/main.c
-jOBJ= ${SRC:.c=.o}
-DEP= ${SRC:.c=.d}
-PRG= ${SRC:.c=}
+SRCDIR= src/
+SRC = $(shell find $(SRCDIR) -name '*.c')
+OBJ= $(SRC:%.c=%.o)
+DEP= $(SRC:%.c=%.d)
+EXEC= main
 
 all:
 	$ gcc src/main.c src/layer.c src/nn.c src/functions.c src/user_inputs_functions.c -o src/main `pkg-config --libs --cflags sdl2` -I/usr/local/include/freetype -lm -lSDL2_image -g
 
-compile : $(EXEC)
 
-$(EXEC) : $(OBJ)
+allbis: $(EXEC)
+
+$(EXEC): $(OBJ)
 
 -include ${DEP}
 

@@ -1,0 +1,63 @@
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+
+
+/* --------- RANDOM --------- */
+
+double random_value() {
+	return (double)rand() / (double) RAND_MAX;
+}
+
+
+/* --------- ACTIVATION FUNCTIONS --------- */
+
+double Sigmoid(double x) {
+	return 1 / (1 + exp(-x));
+}
+
+
+double Sigmoid_Derivation(double x) {
+	return Sigmoid(x) * (1 - Sigmoid(x));
+}
+
+
+double Softmax(double * inputs, int index, int length)
+{
+    double exp_sum = 0;
+    for (int i = 0; i < length; i++)
+    {
+        exp_sum += exp(inputs[i]);
+    }
+
+    double res = exp(inputs[index]) / exp_sum;
+    return res;
+}
+
+double Softmax_Derivation(double * inputs, int index, int length)
+{
+    double exp_sum = 0;
+    for (int i = 0; i < length; i++)
+    {
+        exp_sum += exp(inputs[i]);
+    }
+
+    double ex = exp(inputs[index]);
+    return (ex * exp_sum - ex * ex) / (exp_sum * exp_sum);
+}
+
+
+/* --------- FUNCTIONS --------- */
+
+double Exp(double x) {
+	return pow(2.71828, x);
+}
+
+double Node_Cost(double output, double desired_output) {
+	double error = desired_output - output;
+	return error * error;
+}
+
+double Node_Cost_Derivative(double output, double desired_output) {
+	return 2 * (output - desired_output);
+}

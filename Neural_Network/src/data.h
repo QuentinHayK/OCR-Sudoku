@@ -3,7 +3,7 @@
 /* --------- DATA --------- */
 
 struct Data {
-    double input[64];
+    double input[786];
 	double expected_output[10]; // Output nodes wanted
 	char label[10];
 };
@@ -12,5 +12,5 @@ struct Data {
 
 struct DataSet {
 	int length;
-	struct Data data_set[100];
+	struct Data data_set[300];
 };

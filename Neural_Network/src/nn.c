@@ -42,7 +42,7 @@ double *Calculate_Outputs_NN(struct NeuralNetwork * NN, double input[])
 	for (int i = 1; i < NN->num_layers; i++) 
     {
 		Calculate_Outputs_Layer(&NN->layers[i], NN->layers[i-1].outputs);
-	}
+	} 
 
     return NN->layers[NN->num_layers-2].outputs;
 }
@@ -62,7 +62,7 @@ double Cost_DataSet_NN(struct NeuralNetwork * NN, struct DataSet data)
 
 
 void Apply_All_Gradients_NN(struct NeuralNetwork *NN, double learning_rate) {
-	for (int i = 0; i < NN->num_layers; i++) {
+	for (int i = 0; i < NN->num_layers-1; i++) {
 		Apply_Gradients_Layer(&NN->layers[i], learning_rate);
 	}
 }
@@ -93,4 +93,37 @@ void Gradient_Descent_NN(struct NeuralNetwork * NN, struct DataSet training_data
     }
 
     Apply_All_Gradients_NN(NN, learning_rate);
+}
+
+void Clear_All_Gradients_NN(struct NeuralNetwork *NN) {
+	for (int i = 0; i < NN->num_layers-2; i++) {
+		Clear_Gradient_Layer(&NN->layers[i]);
+	}
+}
+
+void Update_All_Gradients_NN(struct NeuralNetwork *NN, struct Data data) {
+	Calculate_Outputs_NN(NN, data.input);
+
+	// Backpropagation...
+	// Output layer is the 2nd last layer
+	double *new_node_values = Calculate_Outputs_Layer_New_Node_Values_Layer(&NN->layers[NN->num_layers-2], data.expected_output);
+	Update_Gradients_Layer(&NN->layers[NN->num_layers-2], new_node_values);
+
+	// We propage values from back layers to front layers...
+	for (int i = NN->num_layers-2; i >= 0; i--) {
+		new_node_values = Calculate_Hidden_Layer_Node_Values_Layer(&NN->layers[i], NN->layers[i+1], new_node_values);
+		Update_Gradients_Layer(&NN->layers[i], new_node_values);
+	}
+}
+
+void Better_Gradient_Descent_NN(struct NeuralNetwork * NN, struct DataSet training_data, double learning_rate)
+{
+    for (int i = 0; i < training_data.length; i++)
+    {
+        Update_All_Gradients_NN(NN, training_data.data_set[i]);
+    }
+
+    Apply_All_Gradients_NN(NN, learning_rate / training_data.length);
+
+    Clear_All_Gradients_NN(NN);
 }

@@ -21,3 +21,6 @@ double Cost_DataSet_NN(struct NeuralNetwork *NN, struct DataSet data);
 void Apply_All_Gradients_NN(struct NeuralNetwork *NN, double learning_rate);
 void Gradient_Descent_NN(struct NeuralNetwork * NN, struct DataSet training_data, double learning_rate);
 
+void Clear_All_Gradients_NN(struct NeuralNetwork *NN);
+void Update_All_Gradients_NN(struct NeuralNetwork *NN, struct Data data);
+void Better_Gradient_Descent_NN(struct NeuralNetwork *NN, struct DataSet training_data, double learning_rate);

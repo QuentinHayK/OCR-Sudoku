@@ -2,10 +2,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <SDL2/SDL.h>
 #include "../data.h"
 
 
+/* Constants */
+#define WINDOW_WIDTH 28
 #define MAXCHAR 4096
+/* --------- */
+
 
 void Get_CSV_Data_Image(char *file_name, struct DataSet * data_set)
 {
@@ -50,6 +55,44 @@ void Get_CSV_Data_Image(char *file_name, struct DataSet * data_set)
             data_set->data_set[r-1].expected_output[label[0]-'0'] = 1;
         r++;
     }
+}
+
+
+void Display_Digit(double *img)
+{
+    // Display the digit...
+    SDL_Event event;
+    SDL_Renderer *renderer;
+    SDL_Window *window;
+
+    
+    SDL_Init(SDL_INIT_VIDEO);
+    SDL_CreateWindowAndRenderer(WINDOW_WIDTH, WINDOW_WIDTH, 0, &window, &renderer);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+    SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+
+    int im = 0;
+    for (int i = 0; i < 28; i++)
+    {
+        for (int j = 0; j < 28; j++)
+        {
+            //printf("%f\n", img[im]);
+            int c = (int)(img[im]*(double)255);
+            im++;
+            SDL_SetRenderDrawColor(renderer, c, c, c, 255);
+            SDL_RenderDrawPoint(renderer, j, i);
+        }
+    }
+    SDL_RenderPresent(renderer);
+    while (1) {
+        if (SDL_PollEvent(&event) && event.type == SDL_QUIT)
+            break;
+    }
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+    
 }
 
 

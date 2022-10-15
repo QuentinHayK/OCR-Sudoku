@@ -29,12 +29,12 @@ void Get_Layers_Outputs(double * inputs, double * hiddens, double * outputs, dou
     /* Layer 1 */
     Matrix_Mult(weights1, inputs, HIDDENS_R, INPUTS_R, INPUTS_C, hiddens);
     Matrix_Add(hiddens, b1, HIDDENS_R, HIDDENS_C, hiddens);
-    //Matrix_Sigmoid(hiddens);    
+    Matrix_Sigmoid(hiddens, HIDDENS_R, HIDDENS_C);    
 
     /* Layer 2 */
     Matrix_Mult(weights2, hiddens, OUTPUTS_R, HIDDENS_R, HIDDENS_C, outputs);
     Matrix_Add(outputs, b2, OUTPUTS_R, OUTPUTS_C, outputs);
-    //Matrix_Sigmoid(outputs);
+    Matrix_Sigmoid(outputs, OUTPUTS_R, OUTPUTS_C);
 }
 
 double Calculate_Cost(struct DataSet data, int i, double * inputs, double * hiddens, double * outputs, double * weights1, double * weights2, double * b1, double * b2)
@@ -119,29 +119,64 @@ int main(void)
     double b1_derivative[HIDDENS_R];
     double w2_derivative[OUTPUTS_R * HIDDENS_R];
     double b2_derivative[OUTPUTS_R];
-  
     /*
     for (int i = 0; i < 2; i++)
     {
         for (int j = 0; j < INPUTS_R * HIDDENS_R; j++)
         {
-            weights1[j] += 0.1;
+            weights1[j] += 0.01;
             Get_Layers_Outputs(inputs, hiddens, outputs, weights1, weights2, b1, b2);
             double cost = 0;
             for (int k = 0; k < 10; k++)
                 cost += Node_Cost_Derivative(outputs[k], data.data_set[i].expected_output[k]);
             w1_derivative[j] += cost;
-            weights1[j] -= 0.1;
-            printf("[%u] : %f\n", j, weights1[j]);
+            weights1[j] -= 0.01;
+        }
+
+        for (int j = 0; j < HIDDENS_R; j++)
+        {
+            b1[j] += 0.01;
+            Get_Layers_Outputs(inputs, hiddens, outputs, weights1, weights2, b1, b2);
+            double cost = 0;
+            for (int k = 0; k < 10; k++)
+                cost += Node_Cost_Derivative(outputs[k], data.data_set[i].expected_output[k]);
+            b1_derivative[j] += cost;
+            b1[j] -= 0.01;
+        }
+
+        for (int j = 0; j < OUTPUTS_R * HIDDENS_R; j++)
+        {
+            weights2[j] += 0.01;
+            Get_Layers_Outputs(inputs, hiddens, outputs, weights1, weights2, b1, b2);
+            double cost = 0;
+            for (int k = 0; k < 10; k++)
+                cost += Node_Cost_Derivative(outputs[k], data.data_set[i].expected_output[k]);
+            w2_derivative[j] += cost;
+            weights2[j] -= 0.01;
+        }
+
+        for (int j = 0; j < OUTPUTS_R; j++)
+        {
+            b2[j] += 0.01;
+            Get_Layers_Outputs(inputs, hiddens, outputs, weights1, weights2, b1, b2);
+            double cost = 0;
+            for (int k = 0; k < 10; k++)
+                cost += Node_Cost_Derivative(outputs[k], data.data_set[i].expected_output[k]);
+            b2_derivative[j] += cost;
+            b2[j] -= 0.01;
         }
     }
     */
     
-
-    double total_cost = Calculate_TotalCost(data, inputs, hiddens, outputs, weights1, weights2, b1, b2);
-    printf("total cost : %f\n", total_cost);
     
-    Print_Matrix("w1", weights1, INPUTS_R, HIDDENS_R);
+
+    Get_Layers_Outputs(inputs, hiddens, outputs, weights1, weights2, b1, b2);
+    //double total_cost = Calculate_TotalCost(data, inputs, hiddens, outputs, weights1, weights2, b1, b2);
+    //printf("total cost : %f\n", total_cost);
+   
+
+    Get_Layers_Outputs(inputs, hiddens, outputs, weights1, weights2, b1, b2);
+    Print_Matrix("outputs", outputs, OUTPUTS_R, OUTPUTS_C);
     
     return 0;
 }

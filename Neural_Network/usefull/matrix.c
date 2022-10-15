@@ -58,10 +58,12 @@ void Matrix_Mult(double m1[], double m2[], int r1, int c1, int c2, double * res)
     }
 }
 
-void Matrix_Sigmoid(double m[])
+void Matrix_Sigmoid(double m[], int rows, int cols)
 {
+    int size = rows*cols;
+
     int i = 0;
-    while (m[i] != 0)
+    while (m[i] < size)
     {
         m[i] = Sigmoid(m[i]);
         i++;

@@ -10,6 +10,14 @@ void New_Matrix(int rows, int cols, double * res)
         res[i] = random_value()*2-1;
 }
 
+void Reset_Matrix(int rows, int cols, double * res)
+{
+    int size = rows*cols;
+
+    for (int i = 0; i < size; i++)
+        res[i] = 0;
+}
+
 void Print_Matrix(char s[], double m[], int rows, int cols)
 {
     printf("%s = \n", s);
@@ -47,5 +55,15 @@ void Matrix_Mult(double m1[], double m2[], int r1, int c1, int c2, double * res)
                 acc += m1[i*c1+z] * m2[z*c2+j];
             res[i*c2+j] = acc;
         }
+    }
+}
+
+void Matrix_Sigmoid(double m[])
+{
+    int i = 0;
+    while (m[i] != 0)
+    {
+        m[i] = Sigmoid(m[i]);
+        i++;
     }
 }

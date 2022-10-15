@@ -21,7 +21,7 @@ void Get_CSV_Data_Image(char *file_name, struct DataSet * data_set)
     fp = fopen(file_name,"r");
 
     int r = 0;
-    while (feof(fp) != true && r < data_set->length)
+    while (feof(fp) != true && r <= data_set->length)
     {
         char label[2] = {0, 0};
         char * fgets_return = fgets(row, MAXCHAR, fp);

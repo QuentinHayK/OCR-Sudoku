@@ -13,7 +13,7 @@
 #define INPUTS_R 784
 #define INPUTS_C 1
 
-#define HIDDENS_R 16
+#define HIDDENS_R 12
 #define HIDDENS_C 1
 
 #define OUTPUTS_R 10
@@ -23,8 +23,8 @@
 
 void Get_Layers_Outputs(double * inputs, double * hiddens, double * outputs, double * weights1, double * weights2, double * b1, double * b2)
 {
-    Reset_Matrix(HIDDENS_R, HIDDENS_C, hiddens);
-    Reset_Matrix(OUTPUTS_R, OUTPUTS_C, outputs);
+    //Reset_Matrix(HIDDENS_R, HIDDENS_C, hiddens);
+    //Reset_Matrix(OUTPUTS_R, OUTPUTS_C, outputs);
 
     /* Layer 1 */
     Matrix_Mult(weights1, inputs, HIDDENS_R, INPUTS_R, INPUTS_C, hiddens);
@@ -76,7 +76,7 @@ double Calculate_TotalCost(struct DataSet data, double * inputs, double * hidden
 int main(void)
 {
     struct DataSet data;
-    data.length = 200;
+    data.length = 100;
 
     /* Get Dataset from a file */
     Get_CSV_Data_Image("data/TMNIST_Data.csv", &data);
@@ -119,65 +119,83 @@ int main(void)
     double b1_derivative[HIDDENS_R];
     double w2_derivative[OUTPUTS_R * HIDDENS_R];
     double b2_derivative[OUTPUTS_R];
-    /*
-    for (int i = 0; i < 2; i++)
+    
+
+    for (int epoch = 0; epoch < 50; epoch++)
     {
+        Reset_Matrix(INPUTS_R, HIDDENS_R, w1_derivative);
+        Reset_Matrix(HIDDENS_R, 1, b1_derivative);     
+        Reset_Matrix(OUTPUTS_R, HIDDENS_R, w2_derivative);
+        Reset_Matrix(OUTPUTS_R, 1, b2_derivative);
+
+
+        double delta = 0.1;
+        double original_cost = Calculate_TotalCost(data, inputs, hiddens, outputs, weights1, weights2, b1, b2);
+
         for (int j = 0; j < INPUTS_R * HIDDENS_R; j++)
         {
-            weights1[j] += 0.01;
-            Get_Layers_Outputs(inputs, hiddens, outputs, weights1, weights2, b1, b2);
-            double cost = 0;
-            for (int k = 0; k < 10; k++)
-                cost += Node_Cost_Derivative(outputs[k], data.data_set[i].expected_output[k]);
+            weights1[j] += delta;
+            //Get_Layers_Outputs(inputs, hiddens, outputs, weights1, weights2, b1, b2);
+            double cost = Calculate_TotalCost(data, inputs, hiddens, outputs, weights1, weights2, b1, b2) - original_cost;
             w1_derivative[j] += cost;
-            weights1[j] -= 0.01;
+            weights1[j] -= delta;
         }
 
         for (int j = 0; j < HIDDENS_R; j++)
         {
-            b1[j] += 0.01;
-            Get_Layers_Outputs(inputs, hiddens, outputs, weights1, weights2, b1, b2);
-            double cost = 0;
-            for (int k = 0; k < 10; k++)
-                cost += Node_Cost_Derivative(outputs[k], data.data_set[i].expected_output[k]);
+            b1[j] += delta;
+            //Get_Layers_Outputs(inputs, hiddens, outputs, weights1, weights2, b1, b2);
+            double cost = Calculate_TotalCost(data, inputs, hiddens, outputs, weights1, weights2, b1, b2) - original_cost;
             b1_derivative[j] += cost;
-            b1[j] -= 0.01;
+            b1[j] -= delta;
         }
 
         for (int j = 0; j < OUTPUTS_R * HIDDENS_R; j++)
         {
-            weights2[j] += 0.01;
-            Get_Layers_Outputs(inputs, hiddens, outputs, weights1, weights2, b1, b2);
-            double cost = 0;
-            for (int k = 0; k < 10; k++)
-                cost += Node_Cost_Derivative(outputs[k], data.data_set[i].expected_output[k]);
+            weights2[j] += delta;
+            //Get_Layers_Outputs(inputs, hiddens, outputs, weights1, weights2, b1, b2);
+            double cost = Calculate_TotalCost(data, inputs, hiddens, outputs, weights1, weights2, b1, b2) - original_cost;
             w2_derivative[j] += cost;
-            weights2[j] -= 0.01;
+            weights2[j] -= delta;
         }
 
         for (int j = 0; j < OUTPUTS_R; j++)
         {
-            b2[j] += 0.01;
-            Get_Layers_Outputs(inputs, hiddens, outputs, weights1, weights2, b1, b2);
-            double cost = 0;
-            for (int k = 0; k < 10; k++)
-                cost += Node_Cost_Derivative(outputs[k], data.data_set[i].expected_output[k]);
+            b2[j] += delta;
+            //Get_Layers_Outputs(inputs, hiddens, outputs, weights1, weights2, b1, b2);
+            double cost = Calculate_TotalCost(data, inputs, hiddens, outputs, weights1, weights2, b1, b2) - original_cost;
             b2_derivative[j] += cost;
-            b2[j] -= 0.01;
+            b2[j] -= delta;
         }
+
+        for (int j = 0; j < INPUTS_R * HIDDENS_R; j++)
+            weights1[j] -= w1_derivative[j];
+
+        for (int j = 0; j < HIDDENS_R; j++)
+            b1[j] -= b1_derivative[j];
+
+        for (int j = 0; j < OUTPUTS_R * HIDDENS_R; j++)
+            weights2[j] -= w2_derivative[j];
+
+        for (int j = 0; j < OUTPUTS_R; j++)
+            b2[j] -= b2_derivative[j];
+        
+        //Get_Layers_Outputs(inputs, hiddens, outputs, weights1, weights2, b1, b2);
+        double total_cost = Calculate_TotalCost(data, inputs, hiddens, outputs, weights1, weights2, b1, b2);
+        printf("total cost : %f\n", total_cost);
+        Print_Matrix("Outputs", outputs, OUTPUTS_R, OUTPUTS_C);
     }
-    */
+        
     
+    Get_Layers_Outputs(data.data_set[0].input, hiddens, outputs, weights1, weights2, b1, b2);
+    
+    Print_Matrix("Inputs", inputs, INPUTS_R, INPUTS_C);
+    printf("\n");
+    Print_Matrix("Hiddens", hiddens, HIDDENS_R, HIDDENS_C);
+    printf("\n");
+    Print_Matrix("Outputs", outputs, OUTPUTS_R, OUTPUTS_C);
     
 
-    Get_Layers_Outputs(inputs, hiddens, outputs, weights1, weights2, b1, b2);
-    //double total_cost = Calculate_TotalCost(data, inputs, hiddens, outputs, weights1, weights2, b1, b2);
-    //printf("total cost : %f\n", total_cost);
-   
-
-    Get_Layers_Outputs(inputs, hiddens, outputs, weights1, weights2, b1, b2);
-    Print_Matrix("outputs", outputs, OUTPUTS_R, OUTPUTS_C);
-    
     return 0;
 }
 

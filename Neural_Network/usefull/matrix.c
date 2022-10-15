@@ -63,7 +63,7 @@ void Matrix_Sigmoid(double m[], int rows, int cols)
     int size = rows*cols;
 
     int i = 0;
-    while (m[i] < size)
+    while (i < size)
     {
         m[i] = Sigmoid(m[i]);
         i++;

@@ -53,6 +53,7 @@ void Get_CSV_Data_Image(char *file_name, struct DataSet * data_set)
         }
         if (r >= 1)
             data_set->data_set[r-1].expected_output[label[0]-'0'] = 1;
+
         r++;
     }
 }

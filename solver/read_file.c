@@ -1,19 +1,49 @@
 #include <stdio.h>
+#include <err.h>
 
-char *to_array(char *way)
+void to_array(char *way, char *sudo)
 {
-    FILE* fs;
+    FILE* fs = fopen(way, "r");
 
-    fs = fopen(way, "r");
+    if (fs == NULL)
+        errx(1, "%s can't be opened\n", way);
 
-    if (fs == NULL) {
-        printf("%s can't be opened\n", way);
-        return NULL;
+    char *ptr = sudo;
+    char c;
+
+    while (!feof(fs))
+    {
+        c = fgetc(fs);
+        if (c != ' ' && c != '\n')
+        {
+            *ptr = c;
+            ptr += 1;
+        }
     }
 
-    char buffer[121];
-    while (fscanf(fs, "%*s", buffer)) {
-        printf("%s", buffer)
+    fclose(fs);
+}
+
+void to_file(char *sudo, char *way)
+{
+    FILE *fs = fopen(way);
+    char i = 1;
+
+    fputc(*sudo, fs);
+    while (!(sudo+i) != 0)
+    {
+        fputc(*(sudo+i), fs);
+        if (i%3 == 0)
+        {
+            if (i%9 == 0)
+                fputc('\n', fs);
+            else
+                fputc(' ', fs);
+
+            if (i%27 == 0)
+                fputc('\n', fs);
+        }
+        i += 1;
     }
-    return buffer;
+    fclose(fs);
 }

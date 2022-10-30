@@ -5,7 +5,7 @@ CPPFLAGS =
 LDFLAGS =
 LDLIBS =
 
-SRC = main.c read_file.c
+SRC = main.c sudoku.c read_file.c
 OBJ = ${SRC:.c=.o}
 EXEC = main
 

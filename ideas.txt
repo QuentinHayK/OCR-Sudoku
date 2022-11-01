@@ -1,0 +1,5 @@
+https://fr.wikipedia.org/wiki/Segmentation_d%27image
+https://fr.wikipedia.org/wiki/Modèle_de_contour_actif
+https://fr.wikipedia.org/wiki/Filtre_de_Canny
+https://fr.wikipedia.org/wiki/Lissage_d%27images
+https://mipav.cit.nih.gov/pubwiki/index.php/Filters_(Spatial):_Gaussian_Blur#:~:text=The%20standard%20deviation%20of%20the,more%20useful%20in%20some%20circumstances.

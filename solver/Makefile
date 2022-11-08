@@ -15,3 +15,5 @@ all : ${OBJ}
 clean :
 	${RM} ${OBJ}
 	${RM} ${EXEC}
+	${RM} *.swp
+

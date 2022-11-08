@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <err.h>
+#include <string.h>
 
 void to_array(char *way, char *sudo)
 {
@@ -26,13 +27,13 @@ void to_array(char *way, char *sudo)
 
 void to_file(char *sudo, char *way)
 {
-    FILE *fs = fopen(way);
+    char *with_ext = strcat(way, ".result");
+    FILE *fs = fopen(with_ext, "w");
     char i = 1;
 
     fputc(*sudo, fs);
-    while (!(sudo+i) != 0)
+    while (i != 80)
     {
-        fputc(*(sudo+i), fs);
         if (i%3 == 0)
         {
             if (i%9 == 0)
@@ -43,7 +44,10 @@ void to_file(char *sudo, char *way)
             if (i%27 == 0)
                 fputc('\n', fs);
         }
+        fputc(*(sudo+i), fs);
         i += 1;
     }
+    fputc(*(sudo+i), fs);
+
     fclose(fs);
 }

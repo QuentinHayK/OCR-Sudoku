@@ -12,13 +12,8 @@ int main(int argc, char **argv)
     char *sudo = malloc(81 * sizeof(char)+1);
 
     to_array(*(argv+1), sudo);
-
-    print_sudo(sudo);
-    printf("\n");
-
     solve(sudo);
-
-    print_sudo(sudo);
+    to_file(sudo, *(argv+1));
 
     return 0;
 }

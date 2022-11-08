@@ -7,12 +7,11 @@ LDLIBS =
 
 SRC = main.c sudoku.c read_file.c
 OBJ = ${SRC:.c=.o}
-EXEC = main
+EXEC = solver
 
-all : ${EXEC}
-	@echo ${EXEC}
-
-${EXEC} : ${OBJ}
+all : ${OBJ}
+	${CC} ${OBJ} -o ${EXEC}
 
 clean :
-	${RM} ${OBJ} ${EXEC}
+	${RM} ${OBJ}
+	${RM} ${EXEC}

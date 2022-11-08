@@ -88,6 +88,62 @@ char *all_poss(char *sudo, char index)
 }
 
 
+char check_index_valid(char *sudo, char index)
+{
+    char x = index/9,
+         y = index%9,
+         var = 0,
+         res = 1;
+
+    char *histo1 = calloc(10, sizeof(char)),
+         *histo2 = calloc(10, sizeof(char)),
+         *histo3 = calloc(10, sizeof(char));
+    if (histo1 == NULL || histo2 == NULL || histo3 == NULL)
+        errx(1, "Not enough memory!");
+
+    for (char k=0; k<9 && res; k+=1)
+    {
+        var = *(sudo+k*9+y);
+        if (var != '.')
+        {
+            *(histo1+var-'0'-1) += 1;
+            res = *(histo1+var-'0'-1) < 2;
+        }
+
+        var = *(sudo+x*9+k);
+        if (res && var != '.')
+        {
+            *(histo2+var-'0'-1) += 1;
+            res = *(histo2+var-'0'-1) < 2;
+        }
+
+        var = *(sudo+ (x/3*3+k/3)*9 + (y/3*3+k%3));
+        if (res && var != '.')
+        {
+            *(histo3+var-'0'-1) += 1;
+            res = *(histo3+var-'0'-1) < 2;
+        }
+    }
+
+    return res;
+}
+
+
+char is_valid(char *sudo)
+{
+    char i = 0,
+         res = 1;
+
+    while (res && i<81)
+    {
+        res = check_index_valid(sudo, i);
+        i += 1;
+    }
+
+    return res;
+}
+
+
 char solve(char *sudo)
 {
     char index = search_empty_case(sudo);

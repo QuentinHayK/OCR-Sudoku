@@ -1,7 +1,0 @@
-1
-2
-// OUTPUTS
-0
-1
-// LABEL
-"Red"

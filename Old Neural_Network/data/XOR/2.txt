@@ -1,6 +1,0 @@
-1
-0
-// OUTPUTS
-1
-// LABEL
-1

@@ -1,7 +1,7 @@
 #include <stdlib.h>
-#include <time.h>
-
 #include <math.h>
+#include <stdio.h>
+#include <time.h>
 
 
 /* --------- RANDOM --------- */
@@ -45,16 +45,4 @@ double Softmax_Derivation(double * inputs, int index, int length)
 
     double ex = exp(inputs[index]);
     return (ex * exp_sum - ex * ex) / (exp_sum * exp_sum);
-}
-
-
-/* --------- FUNCTIONS --------- */
-
-double Node_Cost(double output, double desired_output) {
-	double error = desired_output - output;
-	return error * error;
-}
-
-double Node_Cost_Derivative(double output, double desired_output) {
-	return 2 * (output - desired_output);
 }

@@ -1,7 +1,0 @@
-2
-4
-// OUTPUTS
-1
-0
-// LABEL
-"Black"

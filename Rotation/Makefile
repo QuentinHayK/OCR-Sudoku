@@ -20,5 +20,8 @@ clean:
 	${RM} ${OBJ}
 	${RM} ${EXE}
 
+run:
+	$ ./rotation "images/Sudoku1.png" "$(angle)"
+
 # END
 

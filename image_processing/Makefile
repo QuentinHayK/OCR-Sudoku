@@ -5,15 +5,18 @@ CPPFLAGS =
 LDFLAGS =
 LDLIBS = `pkg-config --libs sdl2 SDL2_image`
 
-SRC = main.c
+SRC = main.c canny_edge_detector.c
 OBJ = ${SRC:.c=.o}
 EXEC = main
 
 all : ${EXEC}
 
-main : ${OBJ}
+debug : ${EXEC}
+
+${EXEC} : ${OBJ}
 
 clean :
 	${RM} ${OBJ}
 	${RM} ${EXEC}
+	${RM} *.png
 

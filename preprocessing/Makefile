@@ -16,6 +16,6 @@ preprocessing: preprocessing.o
 .PHONY: clean                                                                  
                                                                         
 clean:                                                                          
- ${RM} ${OBJ}                                                            
- ${RM} ${EXE}                                                            
+	${RM} ${OBJ}
+	${RM} ${EXE}                                                            
                             

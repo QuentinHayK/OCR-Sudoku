@@ -18,6 +18,6 @@ all:
 .PHONY: clean
 
 run:
-	nn
+	$ ./nn
 
 # END

@@ -12,6 +12,11 @@ Uint32 hori_pixel_gradient(Uint32 pixel1, Uint32 pixel2,
     SDL_GetRGB(pixel1, format, &r1, &g1, &b1);
     SDL_GetRGB(pixel2, format, &r2, &g2, &b2);
 
+    if (r1 < r2)
+        r1 = 0;
+    else
+        r1 -= r2;
+
     return SDL_MapRGB(format, r1-r2, g1-g2, b1-b2);
 }
 
@@ -28,19 +33,8 @@ Uint32 vert_pixel_gradient(Uint32 pixel1, Uint32 pixel2,
     if (r1 < r2)
         r1 = 0;
     else
-        r1 = r1-r2;
-
-    if (g1 < g2)
-        g1 = 0;
-    else
-        g1 = g1-g2;
-
-    if (b1 < b2)
-        b1 = 0;
-    else
-        b1 = b1-b2;
-
-    return SDL_MapRGB(format, r1, g1, b1);
+        r1 -= r2;
+    return SDL_MapRGB(format, r1, r1, r1);
 }
 
 SDL_Surface **gradient_image(SDL_Surface *image)

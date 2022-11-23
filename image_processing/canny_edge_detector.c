@@ -2,6 +2,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#define 
+#
+
 //Calculate the horizontal gradient of the image
 Uint32 hori_pixel_gradient(Uint32 pixel1, Uint32 pixel2,
         SDL_PixelFormat *format)
@@ -91,3 +94,33 @@ SDL_Surface **gradient_image(SDL_Surface *image)
     *(hori_vert+1) = vert;
     return hori_vert;
 }
+
+void convolution_2D(SDL_Surface *N, char **M, int **P)
+{
+    int height = N->h,
+        width = N->w;
+
+    char mask_side = 3
+    // find center position of kernel (half of kernel size)
+    char kCenterX = mask_side / 2,
+         kCenterY = mask_side / 2;
+
+    for (int i = 0; i < height; ++i)              // rows
+    {
+        for (int j = 0; j < width; ++j)          // columns
+        {
+            for (int m = 0; m < mask_side; ++m)     // kernel rows
+            {
+                for (int n = 0; n < mask_side; ++n) // kernel columns
+                {
+                    // index of input signal, used for checking boundary
+                    int ii = i + (m - kCenterY);
+                    int jj = j + (n - kCenterX);
+
+                    // ignore input samples which are out of bound
+                    if (ii >= 0 && ii < height && jj >= 0 && jj < width)
+                        P[i][j] += N[ii][jj] * M[m][n];
+                }
+            }
+        }
+    }

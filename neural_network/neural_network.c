@@ -272,7 +272,7 @@ void Gradient_Descent(struct Neural_Network * NN, struct DataSet training_data, 
 
 void Learning(struct Neural_Network * NN, struct DataSet data)
 {
-	for (int epoch = 0; epoch < 10000; epoch++)
+	for (int epoch = 1; epoch <= 10000; epoch++)
     {
         Reset_Matrix(INPUTS_R, HIDDENS_R, NN->w1_derivative);
         Reset_Matrix(HIDDENS_R, 1, NN->b1_derivative);     
@@ -327,13 +327,41 @@ void Learning(struct Neural_Network * NN, struct DataSet data)
             NN->b2[j] -= NN->b2_derivative[j];
      	
 		// Print current cost
-		if (epoch > 0)
+		if ((epoch > 0 && epoch % 100 == 0) || epoch == 1)
+		{
+			//printf("\b\b\b\b\b\b\b\b");
+			printf("\n[Epoch : %d] Cost : ", epoch);
+		}
+		else if (epoch > 0)
 			printf("\b\b\b\b\b\b\b\b");
 		else
-			printf("\nCost : ");
+			printf("\n[Epoch : %d] Cost : ", epoch);
 		printf("%8f", Calculate_Total_Cost(*NN, data));	
 	}
 	printf("\n\n");
+}
+
+void Better_Learning(struct Neural_Network NN, struct DataSet data)
+{
+	// Quicker method : (doesn't works actually)		
+	int epochs = 1000;
+	for (int i = 0; i < epochs; i++)
+	{
+		Gradient_Descent(&NN, data, 0.1);
+
+		printf("\n%f\n\n", Calculate_Total_Cost(NN, data));
+
+		for (int i = 0; i < INPUTS_R; i++)
+		{
+			NN.inputs[i] = data.data_set[0].input[i];
+		}
+
+		Get_Layers_Outputs(&NN);
+
+		//printf("Label : %s\n", data.data_set[0].label);
+		//Print_Matrix("Output", NN.outputs, OUTPUTS_R, OUTPUTS_C);
+
+	}
 }
 
 
@@ -361,32 +389,13 @@ int main(void)
 		Import_NN(&NN, SAVE);
 	}
 
-	/*
-	// Quicker method : (doesn't works actually)		
-	int epochs = 1000;
-	for (int i = 0; i < epochs; i++)
-	{
-		Gradient_Descent(&NN, data, 0.1);
-
-		printf("\n%f\n\n", Calculate_Total_Cost(NN, data));
-
-		for (int i = 0; i < INPUTS_R; i++)
-		{
-			NN.inputs[i] = data.data_set[0].input[i];
-		}
-
-		Get_Layers_Outputs(&NN);
-
-		//printf("Label : %s\n", data.data_set[0].label);
-		//Print_Matrix("Output", NN.outputs, OUTPUTS_R, OUTPUTS_C);
-
-	}
-	*/
+	
 
 	// Train our Neural Network :
 	if (file_exists == 0)
 	{
 		Learning(&NN, data);
+		//Better_Learning(NN, data);
 		Export_NN(&NN, SAVE);
 	}
 

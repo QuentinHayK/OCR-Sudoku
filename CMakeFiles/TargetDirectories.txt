@@ -1,0 +1,7 @@
+/home/tom/Desktop/EPITA/prog/OCR-Sudoku/CMakeFiles/HelloWorld.dir
+/home/tom/Desktop/EPITA/prog/OCR-Sudoku/CMakeFiles/edit_cache.dir
+/home/tom/Desktop/EPITA/prog/OCR-Sudoku/CMakeFiles/rebuild_cache.dir
+/home/tom/Desktop/EPITA/prog/OCR-Sudoku/CMakeFiles/list_install_components.dir
+/home/tom/Desktop/EPITA/prog/OCR-Sudoku/CMakeFiles/install.dir
+/home/tom/Desktop/EPITA/prog/OCR-Sudoku/CMakeFiles/install/local.dir
+/home/tom/Desktop/EPITA/prog/OCR-Sudoku/CMakeFiles/install/strip.dir

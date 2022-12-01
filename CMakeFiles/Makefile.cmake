@@ -7,27 +7,29 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-  "CMakeFiles/3.22.1/CMakeCCompiler.cmake"
-  "CMakeFiles/3.22.1/CMakeCXXCompiler.cmake"
-  "CMakeFiles/3.22.1/CMakeSystem.cmake"
+  "CMakeFiles/3.22.3/CMakeCCompiler.cmake"
+  "CMakeFiles/3.22.3/CMakeCXXCompiler.cmake"
+  "CMakeFiles/3.22.3/CMakeSystem.cmake"
+  "CMakeFiles/VerifyGlobs.cmake"
+  "CMakeFiles/cmake.verify_globs"
   "CMakeLists.txt"
-  "/usr/share/cmake-3.22/Modules/CMakeCInformation.cmake"
-  "/usr/share/cmake-3.22/Modules/CMakeCXXInformation.cmake"
-  "/usr/share/cmake-3.22/Modules/CMakeCommonLanguageInclude.cmake"
-  "/usr/share/cmake-3.22/Modules/CMakeGenericSystem.cmake"
-  "/usr/share/cmake-3.22/Modules/CMakeInitializeConfigs.cmake"
-  "/usr/share/cmake-3.22/Modules/CMakeLanguageInformation.cmake"
-  "/usr/share/cmake-3.22/Modules/CMakeSystemSpecificInformation.cmake"
-  "/usr/share/cmake-3.22/Modules/CMakeSystemSpecificInitialize.cmake"
-  "/usr/share/cmake-3.22/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
-  "/usr/share/cmake-3.22/Modules/Compiler/GNU-C.cmake"
-  "/usr/share/cmake-3.22/Modules/Compiler/GNU-CXX.cmake"
-  "/usr/share/cmake-3.22/Modules/Compiler/GNU.cmake"
-  "/usr/share/cmake-3.22/Modules/Platform/Linux-GNU-C.cmake"
-  "/usr/share/cmake-3.22/Modules/Platform/Linux-GNU-CXX.cmake"
-  "/usr/share/cmake-3.22/Modules/Platform/Linux-GNU.cmake"
-  "/usr/share/cmake-3.22/Modules/Platform/Linux.cmake"
-  "/usr/share/cmake-3.22/Modules/Platform/UnixPaths.cmake"
+  "/nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/share/cmake-3.22/Modules/CMakeCInformation.cmake"
+  "/nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/share/cmake-3.22/Modules/CMakeCXXInformation.cmake"
+  "/nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/share/cmake-3.22/Modules/CMakeCommonLanguageInclude.cmake"
+  "/nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/share/cmake-3.22/Modules/CMakeGenericSystem.cmake"
+  "/nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/share/cmake-3.22/Modules/CMakeInitializeConfigs.cmake"
+  "/nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/share/cmake-3.22/Modules/CMakeLanguageInformation.cmake"
+  "/nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/share/cmake-3.22/Modules/CMakeSystemSpecificInformation.cmake"
+  "/nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/share/cmake-3.22/Modules/CMakeSystemSpecificInitialize.cmake"
+  "/nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/share/cmake-3.22/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
+  "/nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/share/cmake-3.22/Modules/Compiler/GNU-C.cmake"
+  "/nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/share/cmake-3.22/Modules/Compiler/GNU-CXX.cmake"
+  "/nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/share/cmake-3.22/Modules/Compiler/GNU.cmake"
+  "/nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/share/cmake-3.22/Modules/Platform/Linux-GNU-C.cmake"
+  "/nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/share/cmake-3.22/Modules/Platform/Linux-GNU-CXX.cmake"
+  "/nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/share/cmake-3.22/Modules/Platform/Linux-GNU.cmake"
+  "/nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/share/cmake-3.22/Modules/Platform/Linux.cmake"
+  "/nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/share/cmake-3.22/Modules/Platform/UnixPaths.cmake"
   )
 
 # The corresponding makefile is:
@@ -43,5 +45,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/HelloWorld.dir/DependInfo.cmake"
+  "CMakeFiles/OcrExe.dir/DependInfo.cmake"
   )

@@ -45,25 +45,25 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/bin/cmake
+CMAKE_COMMAND = /nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/bin/cmake
 
 # The command to remove a file.
-RM = /usr/bin/cmake -E rm -f
+RM = /nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/tom/Desktop/EPITA/prog/OCR-Sudoku
+CMAKE_SOURCE_DIR = /home/tom.brossard/afs/SPE/Projects/OCR-Sudoku
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/tom/Desktop/EPITA/prog/OCR-Sudoku
+CMAKE_BINARY_DIR = /home/tom.brossard/afs/SPE/Projects/OCR-Sudoku
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/HelloWorld.dir/all
+all: CMakeFiles/OcrExe.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -71,34 +71,34 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/HelloWorld.dir/clean
+clean: CMakeFiles/OcrExe.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/HelloWorld.dir
+# Target rules for target CMakeFiles/OcrExe.dir
 
 # All Build rule for target.
-CMakeFiles/HelloWorld.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/HelloWorld.dir/build.make CMakeFiles/HelloWorld.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/HelloWorld.dir/build.make CMakeFiles/HelloWorld.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/tom/Desktop/EPITA/prog/OCR-Sudoku/CMakeFiles --progress-num=1,2 "Built target HelloWorld"
-.PHONY : CMakeFiles/HelloWorld.dir/all
+CMakeFiles/OcrExe.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/OcrExe.dir/build.make CMakeFiles/OcrExe.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/OcrExe.dir/build.make CMakeFiles/OcrExe.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/tom.brossard/afs/SPE/Projects/OCR-Sudoku/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target OcrExe"
+.PHONY : CMakeFiles/OcrExe.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/HelloWorld.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/tom/Desktop/EPITA/prog/OCR-Sudoku/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/HelloWorld.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/tom/Desktop/EPITA/prog/OCR-Sudoku/CMakeFiles 0
-.PHONY : CMakeFiles/HelloWorld.dir/rule
+CMakeFiles/OcrExe.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/tom.brossard/afs/SPE/Projects/OCR-Sudoku/CMakeFiles 6
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/OcrExe.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/tom.brossard/afs/SPE/Projects/OCR-Sudoku/CMakeFiles 0
+.PHONY : CMakeFiles/OcrExe.dir/rule
 
 # Convenience name for target.
-HelloWorld: CMakeFiles/HelloWorld.dir/rule
-.PHONY : HelloWorld
+OcrExe: CMakeFiles/OcrExe.dir/rule
+.PHONY : OcrExe
 
 # clean rule for target.
-CMakeFiles/HelloWorld.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/HelloWorld.dir/build.make CMakeFiles/HelloWorld.dir/clean
-.PHONY : CMakeFiles/HelloWorld.dir/clean
+CMakeFiles/OcrExe.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/OcrExe.dir/build.make CMakeFiles/OcrExe.dir/clean
+.PHONY : CMakeFiles/OcrExe.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
@@ -107,6 +107,7 @@ CMakeFiles/HelloWorld.dir/clean:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
+	$(CMAKE_COMMAND) -P /home/tom.brossard/afs/SPE/Projects/OCR-Sudoku/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

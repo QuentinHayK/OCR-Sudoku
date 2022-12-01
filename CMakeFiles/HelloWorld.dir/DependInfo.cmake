@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/tom/Desktop/EPITA/prog/OCR-Sudoku/src/main.c" "CMakeFiles/HelloWorld.dir/src/main.c.o" "gcc" "CMakeFiles/HelloWorld.dir/src/main.c.o.d"
+  "/home/tom.brossard/afs/SPE/Projects/OCR-Sudoku/src/main.c" "CMakeFiles/HelloWorld.dir/src/main.c.o" "gcc" "CMakeFiles/HelloWorld.dir/src/main.c.o.d"
   )
 
 # Targets to which this target links.

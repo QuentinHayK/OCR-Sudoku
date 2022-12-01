@@ -48,19 +48,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/bin/cmake
+CMAKE_COMMAND = /nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/bin/cmake
 
 # The command to remove a file.
-RM = /usr/bin/cmake -E rm -f
+RM = /nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/tom/Desktop/EPITA/prog/OCR-Sudoku
+CMAKE_SOURCE_DIR = /home/tom.brossard/afs/SPE/Projects/OCR-Sudoku
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/tom/Desktop/EPITA/prog/OCR-Sudoku
+CMAKE_BINARY_DIR = /home/tom.brossard/afs/SPE/Projects/OCR-Sudoku
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -68,7 +68,7 @@ CMAKE_BINARY_DIR = /home/tom/Desktop/EPITA/prog/OCR-Sudoku
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -78,63 +78,18 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/nix/store/5sygy4bz205fn9hwwlvasi510c2k3l5b-cmake-3.22.3/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-.PHONY : list_install_components/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/tom/Desktop/EPITA/prog/OCR-Sudoku/CMakeFiles /home/tom/Desktop/EPITA/prog/OCR-Sudoku//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/tom.brossard/afs/SPE/Projects/OCR-Sudoku/CMakeFiles /home/tom.brossard/afs/SPE/Projects/OCR-Sudoku//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/tom/Desktop/EPITA/prog/OCR-Sudoku/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/tom.brossard/afs/SPE/Projects/OCR-Sudoku/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -158,28 +113,53 @@ preinstall/fast:
 
 # clear depends
 depend:
+	$(CMAKE_COMMAND) -P /home/tom.brossard/afs/SPE/Projects/OCR-Sudoku/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named HelloWorld
+# Target rules for targets named OcrExe
 
 # Build rule for target.
-HelloWorld: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 HelloWorld
-.PHONY : HelloWorld
+OcrExe: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 OcrExe
+.PHONY : OcrExe
 
 # fast build rule for target.
-HelloWorld/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/HelloWorld.dir/build.make CMakeFiles/HelloWorld.dir/build
-.PHONY : HelloWorld/fast
+OcrExe/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/OcrExe.dir/build.make CMakeFiles/OcrExe.dir/build
+.PHONY : OcrExe/fast
+
+src/functions/test.o: src/functions/test.c.o
+.PHONY : src/functions/test.o
+
+# target to build an object file
+src/functions/test.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/OcrExe.dir/build.make CMakeFiles/OcrExe.dir/src/functions/test.c.o
+.PHONY : src/functions/test.c.o
+
+src/functions/test.i: src/functions/test.c.i
+.PHONY : src/functions/test.i
+
+# target to preprocess a source file
+src/functions/test.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/OcrExe.dir/build.make CMakeFiles/OcrExe.dir/src/functions/test.c.i
+.PHONY : src/functions/test.c.i
+
+src/functions/test.s: src/functions/test.c.s
+.PHONY : src/functions/test.s
+
+# target to generate assembly for a file
+src/functions/test.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/OcrExe.dir/build.make CMakeFiles/OcrExe.dir/src/functions/test.c.s
+.PHONY : src/functions/test.c.s
 
 src/main.o: src/main.c.o
 .PHONY : src/main.o
 
 # target to build an object file
 src/main.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/HelloWorld.dir/build.make CMakeFiles/HelloWorld.dir/src/main.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/OcrExe.dir/build.make CMakeFiles/OcrExe.dir/src/main.c.o
 .PHONY : src/main.c.o
 
 src/main.i: src/main.c.i
@@ -187,7 +167,7 @@ src/main.i: src/main.c.i
 
 # target to preprocess a source file
 src/main.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/HelloWorld.dir/build.make CMakeFiles/HelloWorld.dir/src/main.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/OcrExe.dir/build.make CMakeFiles/OcrExe.dir/src/main.c.i
 .PHONY : src/main.c.i
 
 src/main.s: src/main.c.s
@@ -195,8 +175,80 @@ src/main.s: src/main.c.s
 
 # target to generate assembly for a file
 src/main.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/HelloWorld.dir/build.make CMakeFiles/HelloWorld.dir/src/main.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/OcrExe.dir/build.make CMakeFiles/OcrExe.dir/src/main.c.s
 .PHONY : src/main.c.s
+
+src/solver/read_file.o: src/solver/read_file.c.o
+.PHONY : src/solver/read_file.o
+
+# target to build an object file
+src/solver/read_file.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/OcrExe.dir/build.make CMakeFiles/OcrExe.dir/src/solver/read_file.c.o
+.PHONY : src/solver/read_file.c.o
+
+src/solver/read_file.i: src/solver/read_file.c.i
+.PHONY : src/solver/read_file.i
+
+# target to preprocess a source file
+src/solver/read_file.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/OcrExe.dir/build.make CMakeFiles/OcrExe.dir/src/solver/read_file.c.i
+.PHONY : src/solver/read_file.c.i
+
+src/solver/read_file.s: src/solver/read_file.c.s
+.PHONY : src/solver/read_file.s
+
+# target to generate assembly for a file
+src/solver/read_file.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/OcrExe.dir/build.make CMakeFiles/OcrExe.dir/src/solver/read_file.c.s
+.PHONY : src/solver/read_file.c.s
+
+src/solver/solver.o: src/solver/solver.c.o
+.PHONY : src/solver/solver.o
+
+# target to build an object file
+src/solver/solver.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/OcrExe.dir/build.make CMakeFiles/OcrExe.dir/src/solver/solver.c.o
+.PHONY : src/solver/solver.c.o
+
+src/solver/solver.i: src/solver/solver.c.i
+.PHONY : src/solver/solver.i
+
+# target to preprocess a source file
+src/solver/solver.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/OcrExe.dir/build.make CMakeFiles/OcrExe.dir/src/solver/solver.c.i
+.PHONY : src/solver/solver.c.i
+
+src/solver/solver.s: src/solver/solver.c.s
+.PHONY : src/solver/solver.s
+
+# target to generate assembly for a file
+src/solver/solver.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/OcrExe.dir/build.make CMakeFiles/OcrExe.dir/src/solver/solver.c.s
+.PHONY : src/solver/solver.c.s
+
+src/solver/sudoku.o: src/solver/sudoku.c.o
+.PHONY : src/solver/sudoku.o
+
+# target to build an object file
+src/solver/sudoku.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/OcrExe.dir/build.make CMakeFiles/OcrExe.dir/src/solver/sudoku.c.o
+.PHONY : src/solver/sudoku.c.o
+
+src/solver/sudoku.i: src/solver/sudoku.c.i
+.PHONY : src/solver/sudoku.i
+
+# target to preprocess a source file
+src/solver/sudoku.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/OcrExe.dir/build.make CMakeFiles/OcrExe.dir/src/solver/sudoku.c.i
+.PHONY : src/solver/sudoku.c.i
+
+src/solver/sudoku.s: src/solver/sudoku.c.s
+.PHONY : src/solver/sudoku.s
+
+# target to generate assembly for a file
+src/solver/sudoku.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/OcrExe.dir/build.make CMakeFiles/OcrExe.dir/src/solver/sudoku.c.s
+.PHONY : src/solver/sudoku.c.s
 
 # Help Target
 help:
@@ -205,15 +257,23 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... install"
-	@echo "... install/local"
-	@echo "... install/strip"
-	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... HelloWorld"
+	@echo "... OcrExe"
+	@echo "... src/functions/test.o"
+	@echo "... src/functions/test.i"
+	@echo "... src/functions/test.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/solver/read_file.o"
+	@echo "... src/solver/read_file.i"
+	@echo "... src/solver/read_file.s"
+	@echo "... src/solver/solver.o"
+	@echo "... src/solver/solver.i"
+	@echo "... src/solver/solver.s"
+	@echo "... src/solver/sudoku.o"
+	@echo "... src/solver/sudoku.i"
+	@echo "... src/solver/sudoku.s"
 .PHONY : help
 
 
@@ -225,6 +285,7 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
+	$(CMAKE_COMMAND) -P /home/tom.brossard/afs/SPE/Projects/OCR-Sudoku/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

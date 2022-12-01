@@ -1,9 +1,18 @@
 cmake_minimum_required(VERSION "3.22")
 
-project("HelloWorld")
+project("Ocr")
 
-add_executable("${PROJECT_NAME}" "src/main.c")
+file (GLOB_RECURSE Ocr_SOURCES CONFIGURE_DEPENDS "src/*.c")
+file (GLOB_RECURSE Ocr_HEADERS CONFIGURE_DEPENDS "src/*.h")
 
-install(TARGETS "${PROJECT_NAME}" DESTINATION bin)  #$(CMAKE_INSTALL_PREFIX)/bin
-install(FILES "main.c" DESTINATION src) 			#$(CMAKE_INSTALL_PREFIX)/src
+set (Ocr_INCLUDE_DIRS "")
+
+foreach (_headerFile ${_HEADERS})
+    get_filename_component(_dir ${_headerFile} PATH)
+    list (APPEND Ocr_INCLUDE_DIRS ${_dir})
+endforeach()
+list (REMOVE_DUPLICATES Ocr_INCLUDE_DIRS)
+
+add_executable(OcrExe ${Ocr_SOURCES})
+target_include_directories(OcrExe PRIVATE ${Ocr_INCLUDE_DIRS})
 

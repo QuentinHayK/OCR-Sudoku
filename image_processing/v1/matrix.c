@@ -1,7 +1,9 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+
 #include "matrix.h"
 
+// Print the Matrix mat in the terminal
 void print(Matrix* mat)
 {
     int i = 0,
@@ -9,7 +11,7 @@ void print(Matrix* mat)
 
     while (i < mat->h)
     {
-        printf("%3.2f | ", mat->mat[i][j]);
+        printf("%3u | ", mat->mat[i][j]);
         j += 1;
 
         if (j == mat->w)
@@ -22,16 +24,31 @@ void print(Matrix* mat)
     printf("\n");
 }
 
-Matrix* init1(double* mat, int height, int width)
+// Create Matrix of size of height by width, full of 0
+Matrix* new_mat(int height, int width)
+{
+    Matrix* new = malloc(sizeof(Matrix));
+    new->h = height;
+    new->w = width;
+    new->mat = malloc(height * sizeof(unsigned char*));
+    
+    for (int i = 0; i<height; i+=1)
+        new->mat[i] = calloc(width, sizeof(unsigned char));
+
+    return new; 
+}
+
+// Initialize a Matrix of height on width, with an array
+Matrix* init1(unsigned char* mat, int height, int width)
 {
     Matrix* output = malloc(sizeof(Matrix));
     output->h = height;
     output->w = width;
-    output->mat = malloc(height * sizeof(double*));
+    output->mat = malloc(height * sizeof(unsigned char*));
     
     int i = 0;
     for (; i<height; i+=1)
-        output->mat[i] = malloc(width * sizeof(double));
+        output->mat[i] = malloc(width * sizeof(unsigned char));
 
     for (i=0; i<height*width; i+=1)
         output->mat[i/height][i%width] = mat[i];
@@ -39,16 +56,17 @@ Matrix* init1(double* mat, int height, int width)
     return output;
 }
 
-Matrix* init2(double** mat, int height, int width)
+// Initialize a Matrix of height on width, with a matrix
+Matrix* init2(unsigned char** mat, int height, int width)
 {
     Matrix* output = malloc(sizeof(Matrix));
     output->h = height;
     output->w = width;
-    output->mat = malloc(height * sizeof(double*));
+    output->mat = malloc(height * sizeof(unsigned char*));
     
     int i = 0;
     for (; i<height; i+=1)
-        output->mat[i] = malloc(width * sizeof(double));
+        output->mat[i] = malloc(width * sizeof(unsigned char));
 
     for (i=0; i<height*width; i+=1)
         output->mat[i/height][i%width] = mat[i/height][i%width];
@@ -56,6 +74,7 @@ Matrix* init2(double** mat, int height, int width)
     return output;
 }
 
+// Free the Matrix mat
 void freeMat(Matrix* mat)
 {
     for (int i = 0; i<mat->h; i+=1)
@@ -65,7 +84,7 @@ void freeMat(Matrix* mat)
     free(mat);
 }
 
-
+// Returns the transposition of the Matrix mat
 Matrix* transpose(Matrix* mat)
 {
     int i = 0,
@@ -90,25 +109,24 @@ Matrix* transpose(Matrix* mat)
     return output;
 }
 
+// Do the convolution operation mat * kernel in the Natrix res
 void convolution(Matrix* mat, Matrix* kernel, Matrix* res)
 {
+    Matrix* k = transpose(kernel);
     int size_ker = kernel->w * kernel->h;
     for (int i=0, j=0; i<mat->h;)
     {
-        printf("\n");
-        double count = 0;
+        int count = 0;
         for (int index=0; index<size_ker; index+=1)
         {
             int indx = index / kernel->h,
                 indy = index % kernel->w;
-            int x = i + indx - 1,
-                y = j + indy - 1;
+            int x = i + indx - kernel->h/2,
+                y = j + indy - kernel->w/2;
             
-            printf("indx:%d // indy:%d // x:%d // y:%d\n", indx, indy, x, y);
             if ((x >= 0 && x < mat->h) && (y >= 0 && y < mat->w))
-                count += kernel->mat[indx][indy] * mat->mat[x][y];
+                count += (k->mat[indx][indy] * mat->mat[x][y]);
 
-            printf("count:%d", count);
         }
         res->mat[i][j] = count;
 
@@ -119,4 +137,5 @@ void convolution(Matrix* mat, Matrix* kernel, Matrix* res)
             j = 0;
         }
     }
+    freeMat(k);
 }

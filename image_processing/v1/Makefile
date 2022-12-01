@@ -5,7 +5,7 @@ CPPFLAGS =
 LDFLAGS =
 LDLIBS = `pkg-config --libs sdl2 SDL2_image`
 
-SRC = main.c matrix.c
+SRC = main.c grayscale.c matrix.c #gradients.c #gaussian_blurp.c
 OBJ = ${SRC:.c=.o}
 EXEC = main
 
@@ -18,5 +18,4 @@ ${EXEC} : ${OBJ}
 clean :
 	${RM} ${OBJ}
 	${RM} ${EXEC}
-	${RM} *.png
-
+	${RM} *.png *.bmp

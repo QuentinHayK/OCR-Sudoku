@@ -1,31 +1,90 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "matrix.h"
 
-int main(void)
+#include "grayscale.h"
+#include "gradients.h"
+
+SDL_Surface* load_image(char* path)
 {
-    double mmat[16] = {2, 1, 3, 0,
-        1, 1, 0, 5,
-        3, 3, 1, 0,
-        2, 0, 0, 2};
-
-    Matrix* mat = init1(mmat, 4, 4);
-    print(mat);
-
-    double nmat[16] = {0};
-    Matrix* res = init1(nmat, 4, 4);
+    SDL_Surface * surface = IMG_Load(path);
+    if (surface == NULL)
+    errx(EXIT_FAILURE, "%s", SDL_GetError());
     
-    double kmat[9] = {1, 0, 2,
-        2, 1, 0,
-        1, 0, 3};
-    Matrix* kernel = init1(kmat, 3, 3);
-    print(kernel);
+    SDL_Surface * surface2 = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGB888, 0);
+    SDL_FreeSurface(surface);
+    return surface2;
+}
 
-    convolution(mat, kernel, res);
-    print(res);
+Matrix* to_matrix(SDL_Surface* surface)
+{
+    Matrix* matrix = new_mat(surface->h, surface->w);
+    SDL_PixelFormat* format = surface->format;
+    Uint32* pixels = surface->pixels;
+
+    for (int i=0, j=0; i<matrix->h; i+=1)
+    {
+        Uint8 r, g, b;
+        SDL_GetRGB(pixels[i*matrix->w + j], format, &r, &g, &b);
+        matrix->mat[i][j] = r;
+
+        j += 1;
+        if (j == matrix->w)
+        {
+            i += 1;
+            j = 0;
+        }
+    }
+
+    return matrix;
+}
+
+void to_surface(Matrix* mat, SDL_Surface* surface)
+{
+    Uint32* pixels = surface->pixels;
+    SDL_PixelFormat* format = surface->format;
+    int i = 0,
+        j = 0,
+        width = mat->w;
+
+    while (i < mat->h)
+    {
+        Uint8 r, g, b;
+        unsigned char pixel = mat->mat[i][j];
+        r = pixel;
+        g = pixel;
+        b = pixel;
+        pixels[i*width + j] = SDL_MapRGB(format, r, g, b);
+
+        j += 1;
+        if (j == mat->w)
+        {
+            i += 1;
+            j = 0;
+        }
+    }
+}
+
+void save(Matrix* mat, SDL_Surface* surface, char* path)
+{
+    to_surface(mat, surface);
+    SDL_SaveBMP(surface, path);
+}
+
+int main(int argc, char** argv)
+{
+    if (argc != 2)
+        return 0;
+
+    SDL_Surface* s = load_image(argv[1]);
     
-    freeMat(kernel);
-    freeMat(mat);
-    freeMat(res);
+    Matrix* mat = surface_to_grayscale(s);
+    save(mat, s, "test.bmp");
+    /*
+    Matrix** gradients = gradient_magnitude(mat);
+
+    save(gradients[0], s, "gradx.bmp");
+    save(gradients[0], s, "gradx.bmp");
+*/
+
     return 0;
 }

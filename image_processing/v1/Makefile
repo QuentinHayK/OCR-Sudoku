@@ -1,21 +1,20 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -g -O3 `pkg-config --cflags sdl2 SDL2_image`
+CFLAGS = -Wall -Wextra -pedantic-errors -O3 -g
 CPPFLAGS =
 
 LDFLAGS =
-LDLIBS = `pkg-config --libs sdl2 SDL2_image`
+LDLIBS = `pkg-config --libs sdl2 SDL2_image` -lm
 
-SRC = main.c grayscale.c matrix.c #gradients.c #gaussian_blurp.c
+SRC = main.c grayscale.c matrix.c gaussian_blur.c gradients.c
 OBJ = ${SRC:.c=.o}
 EXEC = main
 
 all : ${EXEC}
-
-debug : ${EXEC}
 
 ${EXEC} : ${OBJ}
 
 clean :
 	${RM} ${OBJ}
 	${RM} ${EXEC}
-	${RM} *.png *.bmp
+	${RM} img/*.bmp
+	clear

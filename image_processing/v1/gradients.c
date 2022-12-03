@@ -1,42 +1,48 @@
 #include <math.h>
+#include <stdio.h>
 
 #include "matrix.h"
 
-Matrix** grandient_magnitude(Matrix* mat)
+void grad(Matrix* mat, Matrix** gradients)
 {
-    int row = 0,
-        col = 0;
+    short filter_y[9] = {1, 0, -1, 2, 0, -2, 1, 0, -1};
+    short filter_x[9] = {1, 2, 1, 0, 0, 0, -1, -2, -1};
+    Matrix* gradx = init2(mat->mat, mat->h, mat->w);
+    Matrix* grady = init2(mat->mat, mat->h, mat->w);
+    gradients[0] = gradx;
+    gradients[1] = grady;
 
-    while (row < mat->h)
+    Matrix* sobel_x = init1(filter_x, 3, 3);
+    print(sobel_x);
+    Matrix* sobel_y = init1(filter_y, 3, 3);
+    print(sobel_y);
+
+    convolution(gradients[0], sobel_x, 1);
+    convolution(gradients[1], sobel_y, 1);
+}
+
+Matrix** gradient_magnitude(Matrix* mat)
+{
+    int height = mat->h;
+    int width = mat->w;
+    Matrix** gradients = malloc(2 * sizeof(Matrix*));
+    grad(mat, gradients);
+
+    for (int i=0; i<height; i+=1)
     {
-        Matrix** gradients = grad(mat);
-        unsigned char gx = gradients[0]->mat[row][col];
-        unsigned char gy = gradients[1]->mat[row][col]; 
-        double d = sqrt(gx*gx + gy*gy );
-        mat->mat[row][col] = d   ;
-
-        col += 1;
-        if (col == mat->w)
+        for (int j=0; j<width; j+=1)
         {
-            row += 1;
-            col = 0;
+            short gx = gradients[0]->mat[i][j];
+            short gy = gradients[1]->mat[i][j];
+            int g = gx*gx + gy*gy;
+            double d = sqrt(g);
+            mat->mat[i][j] = d;
         }
     }
+
     return gradients;
 }
 
-Matrix** grad(Matrix* mat)
+Matrix* compare_neighbours(Matrix* mat, Matrix** gradi)
 {
-    unsigned char* filter = { -1, 0, 1 };
-    Matrix* gradx = new_mat(mat->h, mat->w),
-        grady = new_mat(mat->h, mat->w);
-    Matrix** gradients = {gradx, grady};
-
-    Matrix* filter_x = init1(filter, 1, 3);
-    Matrix* filter_y = init1(filter, 3, 1);
-
-    convolution(mat, filter_x, gradx);
-    convolution(mat, filter_y, grady);
-
-    return gradients;
 }

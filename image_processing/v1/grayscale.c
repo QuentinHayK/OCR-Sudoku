@@ -1,7 +1,7 @@
 #include "grayscale.h"
 
 //For one pixel.
-Uint32 pixel_to_grayscale(Uint32 pixel_color, SDL_PixelFormat* format, unsigned char* pixel)
+Uint32 pixel_to_grayscale(Uint32 pixel_color, SDL_PixelFormat* format, short* pixel)
 {
     Uint8 r, g, b;
     SDL_GetRGB(pixel_color, format, &r, &g, &b);

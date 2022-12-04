@@ -11,7 +11,7 @@ OBJ = ${SRC:.c=.o}
 DEP = ${SRC:.c=.d}
 
 all: 
-	$ gcc matrix.c user_inputs_functions.c functions.c neural_network.c -o nn -lm -Wall -Wextra
+	$ gcc matrix.c user_inputs_functions.c functions.c neural_network.c -o nn -lm -Wall -Wextra -g
 
 -include ${DEP}
 

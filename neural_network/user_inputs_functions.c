@@ -65,7 +65,7 @@ void Get_CSV_Data_Image(char *file_name, struct DataSet * data_set)
 				{
 					data_set->data_set[r-1].input[img_pixel_index] = token[0]-'0';
 				}
-				printf("INPUT : %d\n", token[0]-'0');
+				//printf("INPUT : %d\n", token[0]-'0');
                 img_pixel_index++;
             }
             token = strtok(NULL, ",");

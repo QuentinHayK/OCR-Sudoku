@@ -6,17 +6,21 @@
 #include "functions.h"
 
 /* Constants */
-#define INPUTS_R 2 // 784
+#define INPUTS_R 4 // 784
 #define INPUTS_C 1
 
-#define HIDDENS_R 10 // 12
+#define HIDDENS_R 2 // 12
 #define HIDDENS_C 1
 
 #define OUTPUTS_R 2 // 10
 #define OUTPUTS_C 1
 
+#define EPOCHS 10000
+#define DATA_LENGTH 4
+
 #define XOR_DATA "XOR.csv"
 #define DIGITS_DATA "TMNIST_Data.csv"
+#define SELECTED_DATA XOR_DATA
 
 #define SAVE "save"
 
@@ -25,24 +29,16 @@ struct Neural_Network
 	double inputs[INPUTS_R * INPUTS_C];
 
 	double w1[INPUTS_R * HIDDENS_R];
+	double w1_derivative[INPUTS_R * HIDDENS_R];
 	double b1[HIDDENS_R];
-	double weighted_hiddens[HIDDENS_R];
-	double cost_gradient_w1[INPUTS_R * HIDDENS_R];
-	double cost_gradient_b1[HIDDENS_R];
+	double b1_derivative[HIDDENS_R];
 	double hiddens[HIDDENS_R * HIDDENS_C];
 
 	double w2[OUTPUTS_R * HIDDENS_R];
+	double w2_derivative[OUTPUTS_R * HIDDENS_R];
 	double b2[OUTPUTS_R];
-	double weighted_outputs[OUTPUTS_R];
-	double cost_gradient_w2[OUTPUTS_R * HIDDENS_R];
-	double cost_gradient_b2[OUTPUTS_R];
+	double b2_derivative[OUTPUTS_R];
 	double outputs[OUTPUTS_R * OUTPUTS_C];
-
-	/* for each weights and biases, calcul cost derivative */
-    double w1_derivative[INPUTS_R * HIDDENS_R];
-    double b1_derivative[HIDDENS_R];
-    double w2_derivative[OUTPUTS_R * HIDDENS_R];
-    double b2_derivative[OUTPUTS_R];
 };
 
 /* Save Manager */
@@ -104,8 +100,25 @@ void Import_NN(struct Neural_Network * NN, char file[])
 
 /* --------- FUNCTIONS --------- */
 
+int Max_label_from_doubles(double *output, int len)
+{
+	double max = output[0];
+	int max_i = 0;
+
+	for (int i = 1; i < len; i++)
+	{
+		if (output[i] > max)
+		{
+			max = output[i];
+			max_i = i;
+		}
+	}
+
+	return max_i;
+}
+
 double Node_Cost(double output, double desired_output) {
-	double error = desired_output - output;
+	double error = output - desired_output;
 	return error * error;
 }
 
@@ -157,122 +170,9 @@ double Calculate_Total_Cost(struct Neural_Network NN, struct DataSet data_set)
 	return total_cost;
 }
 
-void Apply_All_Gradients_NN(struct Neural_Network * NN, double learning_rate)
-{
-	// Apply all gradients
-	for (int i = 0; i < OUTPUTS_R; i++)
-	{
-		NN->b2[i] -= NN->cost_gradient_b2[i] * learning_rate;
-
-		for (int j = 0; j < HIDDENS_R; j++)
-		{
-			NN->w2[i * HIDDENS_R + j] -= NN->cost_gradient_w2[i * HIDDENS_R + j] * learning_rate;
-		}
-	}
-
-	for (int i = 0; i < HIDDENS_R; i++)
-	{
-		NN->b1[i] -= NN->cost_gradient_b1[i] * learning_rate;
-
-		for (int j = 0; j < INPUTS_R; j++)
-		{
-			NN->w1[i* INPUTS_R + j] -= NN->cost_gradient_w1[i * INPUTS_R + j] * learning_rate;
-		}
-	}
-}
-
-void Clear_All_Gradients_NN(struct Neural_Network * NN)
-{
-	// Clear all gradients
-	for (int i = 0; i < HIDDENS_R * INPUTS_R; i++)
-		NN->cost_gradient_w1[i] = 0;
-	
-	for (int i = 0; i < HIDDENS_R; i++)
-		NN->cost_gradient_b1[i] = 0;
-
-	for (int i = 0; i < OUTPUTS_R * HIDDENS_R; i++)
-		NN->cost_gradient_w2[i] = 0;
-
-	for (int i = 0; i < OUTPUTS_R; i++)
-		NN->cost_gradient_b2[i] = 0;
-}
-
-void Update_All_Gradients_NN(struct Neural_Network * NN, struct Data data)
-{
-	Get_Layers_Outputs(NN);
-	
-	double * new_outputs_nodes_values = malloc(sizeof(double) * OUTPUTS_R);
-	
-	for (int i = 0; i < OUTPUTS_R; i++)
-	{
-		double cost_derivative = Node_Cost_Derivative(NN->outputs[i], data.expected_output[i]);
-		double activation_derivative = Sigmoid_Derivation(NN->weighted_outputs[i]);
-	
-		new_outputs_nodes_values[i] = cost_derivative * activation_derivative;
-	}
-
-	// Update_Gradients_Layer()
-	for (int i = 0; i < OUTPUTS_R; i++)
-	{
-		for (int j = 0; j < HIDDENS_R; j++)
-		{
-			double partial_derivative_cost_weight = NN->hiddens[j] * new_outputs_nodes_values[i];
-			NN->cost_gradient_w2[i*HIDDENS_R+j] += partial_derivative_cost_weight;
-		}
-
-		double partial_derivative_cost_bias = 1 * new_outputs_nodes_values[i];
-		NN->cost_gradient_b2[i] += partial_derivative_cost_bias;		
-	}
-
-	double * new_hiddens_nodes_values = malloc(sizeof(double) * HIDDENS_R);
-
-	for (int i = 0; i < HIDDENS_R; i++)
-	{
-		double new_node_value = 0;
-
-		for (int j = 0; j < INPUTS_R; j++)
-		{
-			double weighted_input_derivative = NN->w1[i*INPUTS_R+j];
-			new_node_value += weighted_input_derivative * new_outputs_nodes_values[j];
-		}
-
-		new_node_value *= Sigmoid_Derivation(NN->weighted_hiddens[i]);
-		new_hiddens_nodes_values[i] = new_node_value;
-	}
-
-	// Update_Gradients_Layers()
-	for (int i = 0; i < HIDDENS_R; i++)
-	{
-		for (int j = 0; j < INPUTS_R; j++)
-		{
-			double partial_derivative_cost_weight = NN->inputs[j] * new_hiddens_nodes_values[i];
-			NN->cost_gradient_w1[i*INPUTS_R+j] += partial_derivative_cost_weight;
-		}
-
-		double partial_derivative_cost_bias = 1 * new_hiddens_nodes_values[i];
-		NN->cost_gradient_b1[i] += partial_derivative_cost_bias;
-	}
-
-	free(new_outputs_nodes_values);
-	free(new_hiddens_nodes_values);
-}
-
-void Gradient_Descent(struct Neural_Network * NN, struct DataSet training_data, double learning_rate)
-{
-	for (int i = 0; i < training_data.length; i++)
-    {
-        Update_All_Gradients_NN(NN, training_data.data_set[i]);
-    }
-
-    Apply_All_Gradients_NN(NN, learning_rate);
-
-    Clear_All_Gradients_NN(NN);
-}
-
-
 void Learning(struct Neural_Network * NN, struct DataSet data)
 {
-	for (int epoch = 1; epoch <= 10000; epoch++)
+	for (int epoch = 1; epoch <= EPOCHS; epoch++)
     {
         Reset_Matrix(INPUTS_R, HIDDENS_R, NN->w1_derivative);
         Reset_Matrix(HIDDENS_R, 1, NN->b1_derivative);     
@@ -327,7 +227,7 @@ void Learning(struct Neural_Network * NN, struct DataSet data)
             NN->b2[j] -= NN->b2_derivative[j];
      	
 		// Print current cost
-		if ((epoch > 0 && epoch % 100 == 0) || epoch == 1)
+		if ((epoch > 0 && epoch % 1000 == 0) || epoch == 1)
 		{
 			//printf("\b\b\b\b\b\b\b\b");
 			printf("\n[Epoch : %d] Cost : ", epoch);
@@ -341,46 +241,35 @@ void Learning(struct Neural_Network * NN, struct DataSet data)
 	printf("\n\n");
 }
 
-void Better_Learning(struct Neural_Network NN, struct DataSet data)
+void red()
 {
-	// Quicker method : (doesn't works actually)		
-	int epochs = 1000;
-	for (int i = 0; i < epochs; i++)
-	{
-		Gradient_Descent(&NN, data, 0.1);
-
-		printf("\n%f\n\n", Calculate_Total_Cost(NN, data));
-
-		for (int i = 0; i < INPUTS_R; i++)
-		{
-			NN.inputs[i] = data.data_set[0].input[i];
-		}
-
-		Get_Layers_Outputs(&NN);
-
-		//printf("Label : %s\n", data.data_set[0].label);
-		//Print_Matrix("Output", NN.outputs, OUTPUTS_R, OUTPUTS_C);
-
-	}
+  printf("\033[0;30m");
 }
 
+void green()
+{
+  printf("\033[0;32m");
+}
+
+void reset_color()
+{
+  printf("\033[0m");
+}
 
 int main(void)
 {
 	struct DataSet data;
-	data.length = 4;
+	data.length = DATA_LENGTH;
 
-	data.data_set = malloc(sizeof(struct Data) * 500);
+	data.data_set = malloc(sizeof(struct Data) * data.length);
 	
-	Get_CSV_Data_Image(XOR_DATA, &data);
+	Get_CSV_Data_Image(SELECTED_DATA, &data);
 
 
 	struct Neural_Network NN;
 	
 	New_Matrix(HIDDENS_R, INPUTS_R, (&NN)->w1);
-	//New_Matrix(HIDDENS_R, HIDDENS_C, (&NN)->b1);
 	New_Matrix(OUTPUTS_R, HIDDENS_R, (&NN)->w2);
-	//New_Matrix(OUTPUTS_R, OUTPUTS_C, (&NN)->b2);
 
 
 	int file_exists = Is_File_Exists(SAVE);
@@ -389,18 +278,17 @@ int main(void)
 		Import_NN(&NN, SAVE);
 	}
 
-	
-
 	// Train our Neural Network :
 	if (file_exists == 0)
 	{
 		Learning(&NN, data);
-		//Better_Learning(NN, data);
 		Export_NN(&NN, SAVE);
 	}
 
 	// Print results
-	for (int j = 0; j < 4; j++)
+	printf("------------ Results ------------\n\n");
+
+	for (int j = 0; j < data.length; j++)
 	{
 		for (int i = 0; i < INPUTS_R; i++)
 		{
@@ -410,10 +298,20 @@ int main(void)
 		
 		Get_Layers_Outputs(&NN);
 
-		Print_Matrix("Input", NN.inputs, INPUTS_R, INPUTS_C);
-		printf("Label : %s\n", data.data_set[j].label);
-		Print_Matrix("Output", NN.outputs, OUTPUTS_R, OUTPUTS_C);
+		//Print_Matrix("Input", NN.inputs, INPUTS_R, INPUTS_C);
+		int output_label = Max_label_from_doubles(NN.outputs, OUTPUTS_R * OUTPUTS_C);
+		int expected_output_label = data.data_set[j].label[0] - '0';
+
+		if (output_label == expected_output_label)
+			red();
+		else
+			green();
+		printf("Expected : %d => Output : %d\n", expected_output_label, output_label);
+		reset_color();
+		//Print_Matrix("Output", NN.outputs, OUTPUTS_R, OUTPUTS_C);
 	}
+
+	printf("\n---------------------------------\n");
 	
 	
 	free(data.data_set);

@@ -1,1 +1,0 @@
-/run/current-system/sw/bin/cc CMakeFiles/OcrExe.dir/src/functions/test.c.o CMakeFiles/OcrExe.dir/src/main.c.o CMakeFiles/OcrExe.dir/src/solver/read_file.c.o CMakeFiles/OcrExe.dir/src/solver/solver.c.o CMakeFiles/OcrExe.dir/src/solver/sudoku.c.o -o OcrExe 

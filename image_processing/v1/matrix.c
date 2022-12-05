@@ -10,7 +10,7 @@ void print(Matrix* mat)
 
     while (i < mat->h)
     {
-        printf("%3d | ", mat->mat[i][j]);
+        printf("%3d |", mat->mat[i][j]);
         j += 1;
 
         if (j == mat->w)
@@ -43,15 +43,15 @@ Matrix* init1(short* arr, int height, int width)
     Matrix* output = malloc(sizeof(Matrix));
     output->h = height;
     output->w = width;
-    output->mat = malloc(height * sizeof(short*));
+    output->mat = malloc(height*sizeof(short*));
 
-    int i = 0;
-    for (; i<height; i+=1)
-        output->mat[i] = malloc(width * sizeof(short));
+    for (int i=0; i<height; i+=1)
+        output->mat[i] = malloc(width*sizeof(short));
 
-    for (i=0; i<height; i+=1)
+    for (int i=0; i<height; i+=1)
         for (int j=0; j<width; j+=1)
             *(output->mat[i]+j) = arr[i*width +j];
+
     return output;
 }
 

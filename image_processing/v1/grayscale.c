@@ -3,40 +3,36 @@
 //For one pixel.
 Uint32 pixel_to_grayscale(Uint32 pixel_color, SDL_PixelFormat* format, short* pixel)
 {
-    Uint8 r, g, b;
+    Uint8 r = 1, g = 1, b = 1;
+
     SDL_GetRGB(pixel_color, format, &r, &g, &b);
-    Uint8 average = (0.3 * r) + (0.59 * g) + (0.11 * b);
-    *pixel = average;
-    r = average;
-    g = average;
-    b = average;
-    Uint32 color = SDL_MapRGB(format, r, g, b);
     
-    return color;
+    Uint8 average = (0.3 * r) + (0.59 * g) + (0.11 * b);
+    
+    *pixel = average;
+
+    return SDL_MapRGB(format, average, average, average);
 }
 
 //For all pixels.
 Matrix* surface_to_grayscale(SDL_Surface* surface)
 {
-    Matrix* mat = new_mat(surface->h, surface->w);
-
+    int height = surface->h;
+    int width = surface->w;
+    Matrix* mat = new_mat(height, width);
     Uint32* pixels = surface->pixels;
-    SDL_PixelFormat* format = surface->format;
+
     SDL_LockSurface(surface);
 
-    for (int i=0, j=0; i<mat->h;)
+    for (int i=0; i<height; i+=1)
     {
-        int pos = i*mat->w+j;
-        pixels[pos] = pixel_to_grayscale(pixels[pos], format, mat->mat[i]+j);
-
-        j += 1;
-        if (j == mat->w)
+        for (int j=0; j<width; j+=1)
         {
-            i += 1;
-            j = 0;
+            int pos = i*width + j;
+            *(pixels+pos) = pixel_to_grayscale(pixels[pos], surface->format, mat->mat[i]+j);
         }
     }
-    
+
     SDL_UnlockSurface(surface);
 
     return mat;

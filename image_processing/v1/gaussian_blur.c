@@ -11,6 +11,6 @@ void gaussian_filter(Matrix* mat)
         7, 26, 41, 26, 7,
         4, 16, 26, 16, 4,
         1, 4, 7, 4, 1};
-    Matrix* kernel = init1(gauss_filter, 5, 5);
+    Matrix* kernel = init1(&gauss_filter[0], 5, 5);
     convolution(mat, kernel, GAUSSIAN_SCALE);
 }

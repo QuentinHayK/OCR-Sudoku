@@ -1,7 +1,8 @@
 #ifndef GRADIENTS
 #define GRADIENTS
 
-void grad(Matrix mat, Matrix** gradients);
-Matrix** gradient_magnitude(Matrix* mat);
+void fill_mag(Matrix* mag, Matrix* gradx, Matrix* grady);
+void is_edge(Matrix* mag, double rad, int i, int j);
+Matrix* grad(Matrix* mat);
 
 #endif

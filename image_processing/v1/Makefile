@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -pedantic-errors -O3 -g
+CFLAGS = -Wall -Wextra -pedantic-errors -O3 `pkg-config --cflags sdl2 SDL2_image` -g
 CPPFLAGS =
 
 LDFLAGS =
@@ -16,5 +16,5 @@ ${EXEC} : ${OBJ}
 clean :
 	${RM} ${OBJ}
 	${RM} ${EXEC}
-	${RM} img/*.bmp
+	${RM} res/*.bmp
 	clear

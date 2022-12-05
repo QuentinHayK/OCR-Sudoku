@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "grayscale.h"
 #include "gradients.h"
@@ -60,36 +61,82 @@ void to_surface(Matrix* mat, SDL_Surface* surface)
     }
 }
 
-void save(Matrix* mat, SDL_Surface* surface, char* path)
+void save(Matrix* mat, SDL_Surface* surface, char str[], int i)
 {
+    char* path = calloc(30, sizeof(char));
+    char dir[] = "./res/";
+    char num[] = {'0'+i, '\0'};
+
+    strcat(path, dir);
+    strcat(path, num);
+    strcat(path, str);
+
     to_surface(mat, surface);
     SDL_SaveBMP(surface, path);
+
+    free(path);
 }
 
 int main(int argc, char** argv)
 {
-    if (argc != 2)
+    if (argc < 2)
+    {
+        printf("Need arg\n");
         return 0;
+    }
 
-    SDL_Surface* s = load_image(argv[1]);
-    
-    Matrix* mat = surface_to_grayscale(s);
-    save(mat, s, "img/0grayscale.bmp");
+    char option[] = "-all";
+    if (strcmp(argv[1], option) == 0)
+        for (int i=1; i<6; i+=1)
+        {
+            char* path = calloc(30, sizeof(char));
+            char dir[] = "./img/image_0";
+            char num[] = {'0'+i, '\0'};
+            char ext[] = ".jpeg";
 
-    gaussian_filter(mat);
-    save(mat, s, "img/1gaussian_blur.bmp");
+            strcat(path, dir);
+            strcat(path, num);
+            strcat(path, ext);
+            
+            SDL_Surface* s = load_image(path);
 
-    Matrix** grads = gradient_magnitude(mat);
+            Matrix* mat = surface_to_grayscale(s);
+            save(mat, s, "0grayscale.bmp", i);
 
-    save(grads[0], s, "img/2gradx.bmp");
-    save(grads[1], s, "img/3grady.bmp");
+            gaussian_filter(mat);
+            save(mat, s, "1gaussian_blur.bmp", i);
 
-    save(mat, s, "img/4grad.bmp");
+            Matrix* mag = grad(mat);
+            save(mag, s, "2gradx.bmp", i);
 
-    freeMat(mat);
-    free(grads[0]);
-    free(grads[1]);
-    free(grads);
+            freeMat(mat);
+            freeMat(mag);
+            SDL_FreeSurface(s);
+
+            printf("%s finished\n", path);
+            free(path);
+        }
+
+    else
+        for (int i=1; i<argc; i+=1)
+        {
+            SDL_Surface* s = load_image(argv[i]);
+
+            Matrix* mat = surface_to_grayscale(s);
+            save(mat, s, "0grayscale.bmp", i);
+
+            gaussian_filter(mat);
+            save(mat, s, "1gaussian_blur.bmp", i);
+
+            Matrix* mag = grad(mat);
+            save(mag, s, "2mag.bmp", i);
+
+            freeMat(mat);
+            freeMat(mag);
+            SDL_FreeSurface(s);
+            
+            printf("%s finished\n", argv[i]);
+        }
 
     return 0;
 }

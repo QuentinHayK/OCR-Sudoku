@@ -4,21 +4,23 @@
 #include "data.h"
 #include "user_inputs_functions.h"
 #include "functions.h"
+#include <SDL.h>        
+
 
     /* Constants */
 #define INPUTS_R 784 // 784
 #define INPUTS_C 1
 
-#define HIDDENS_R 20 // 12
+#define HIDDENS_R 15 // 12
 #define HIDDENS_C 1
 
 #define OUTPUTS_R 10 // 10
 #define OUTPUTS_C 1
 
-#define EPOCHS 500
+#define EPOCHS 2000
 #define DATA_LENGTH 400
 
-#define DELTA 0.02
+#define DELTA 0.2
 
 #define XOR_DATA "XOR.csv"
 #define DIGITS_DATA "TMNIST_Data.csv"
@@ -262,9 +264,7 @@ int main(void)
 {
 	struct DataSet data;
 	data.length = DATA_LENGTH;
-
 	data.data_set = malloc(sizeof(struct Data) * data.length);
-	
 	Get_CSV_Data_Image(SELECTED_DATA, &data);
 
 
@@ -322,7 +322,36 @@ int main(void)
 
 	printf("\n---------------------------------\n");
 	
+
+	printf("\n-------------- Test -------------\n\n");
 	
+	SDL_Surface * IMG_Load("three.png");
+
+	for (int i = 0; i < INPUTS_R; i++)
+	{
+		(&NN)->inputs[i] = data.data_set[50].input[i];
+		//printf("data : %f\n", data.data_set[j].input[i]);
+	}
+
+	Get_Layers_Outputs(&NN);
+
+	//Print_Matrix("Input", NN.inputs, INPUTS_R, INPUTS_C);
+	int output_label = Max_label_from_doubles(NN.outputs, OUTPUTS_R * OUTPUTS_C);
+	int expected_output_label = data.data_set[50].label[0] - '0';
+
+	if (output_label == expected_output_label)
+	{
+	    green();
+	    score++;
+	}
+	else
+		red();
+	printf("Expected : %d => Output : %d\n", expected_output_label, output_label);
+	reset_color();
+	//Print_Matrix("Output", NN.outputs, OUTPUTS_R, OUTPUTS_C);
+
+	printf("\n---------------------------------\n");
+
 	free(data.data_set);
 	
 	return 0;

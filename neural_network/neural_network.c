@@ -4,7 +4,9 @@
 #include "data.h"
 #include "user_inputs_functions.h"
 #include "functions.h"
-#include <SDL.h>        
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <err.h>
 
 
     /* Constants */
@@ -44,6 +46,20 @@
 	    double b2_derivative[OUTPUTS_R];
 	    double outputs[OUTPUTS_R * OUTPUTS_C];
     };
+
+	SDL_Surface* load_image (char* path)
+	{
+		SDL_Surface* surface_temp = IMG_Load(path);
+		if (surface_temp == NULL)
+			errx(EXIT_FAILURE, "failed loading image : %s", SDL_GetError());
+
+		SDL_Surface* surface = SDL_ConvertSurfaceFormat(surface_temp, SDL_PIXELFORMAT_RGB888      , 0);
+		SDL_FreeSurface (surface_temp);
+		return surface;
+
+		SDL_FreeSurface(surface_temp);
+		return surface;
+	}
 
     /* Save Manager */
 
@@ -325,7 +341,7 @@ int main(void)
 
 	printf("\n-------------- Test -------------\n\n");
 	
-	SDL_Surface * IMG_Load("three.png");
+	SDL_Surface * image_surface = load_image("three.png");
 
 	for (int i = 0; i < INPUTS_R; i++)
 	{

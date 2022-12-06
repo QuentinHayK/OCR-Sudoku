@@ -11,7 +11,7 @@ OBJ = ${SRC:.c=.o}
 DEP = ${SRC:.c=.d}
 
 all: 
-	$ gcc matrix.c user_inputs_functions.c functions.c neural_network.c -o nn -lm -Wall -Wextra -g
+	$ gcc matrix.c user_inputs_functions.c functions.c neural_network.c -o nn -lm -ldl -Wall -Wextra -g `pkg-config --cflags sdl2 SDL2_image`
 
 -include ${DEP}
 

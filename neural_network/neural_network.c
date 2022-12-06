@@ -13,22 +13,27 @@
 #define INPUTS_R 784 // 784
 #define INPUTS_C 1
 
-#define HIDDENS_R 15 // 12
+#define HIDDENS_R 12 // 12
 #define HIDDENS_C 1
 
 #define OUTPUTS_R 10 // 10
 #define OUTPUTS_C 1
 
 #define EPOCHS 2000
-#define DATA_LENGTH 400
+#define DATA_LENGTH 1000
 
-#define DELTA 0.2
+#define DELTA 0.4
 
 #define XOR_DATA "XOR.csv"
 #define DIGITS_DATA "TMNIST_Data.csv"
 #define SELECTED_DATA DIGITS_DATA
 
 #define SAVE "save"
+
+
+const int INIT_WIDTH = 28;
+const int INIT_HEIGHT = 28;
+
 
     struct Neural_Network
     {
@@ -47,7 +52,46 @@
 	    double outputs[OUTPUTS_R * OUTPUTS_C];
     };
 
-	SDL_Surface* load_image (char* path)
+void draw(SDL_Renderer* renderer, SDL_Texture* texture)
+{
+    int copy = SDL_RenderCopy(renderer, texture, NULL, NULL);
+    if (copy != 0)         
+	    errx(EXIT_FAILURE, "%s", SDL_GetError());
+    SDL_RenderPresent(renderer);
+}
+
+void event_loop(SDL_Renderer* renderer, SDL_Texture* texture)
+{
+
+    SDL_Event event;
+    SDL_Texture* t = texture;
+
+    while (1)
+    {
+	SDL_WaitEvent(&event);
+        switch (event.type)
+        {
+	    // If the "quit" button is pushed, ends the event loop.             
+            case SDL_QUIT:                                                      
+		        return;                                                                                                                             
+            // If the window is resized, updates and redraw the image           
+            case SDL_WINDOWEVENT:                                               
+	        {
+		        if (event.window.event == SDL_WINDOWEVENT_RESIZED)              
+                {                                                               
+                     draw(renderer, t);                                    
+                }                                                               
+		        break;
+	        }
+		    break;
+	    }
+
+    } 
+}
+
+
+
+	SDL_Surface* load_image (const char* path)
 	{
 		SDL_Surface* surface_temp = IMG_Load(path);
 		if (surface_temp == NULL)
@@ -60,6 +104,21 @@
 		SDL_FreeSurface(surface_temp);
 		return surface;
 	}
+
+Uint8 pixel_to_grayscale(Uint32 pixel_color, SDL_PixelFormat* format)
+{
+    Uint8 r, g, b;
+    SDL_GetRGB(pixel_color, format, &r, &g, &b);
+    Uint8 average = (0.3 * r) + (0.59 * g) + (0.11 * b);
+    
+    //printf("%d %d %d : %d\n", r, g, b, average);
+    
+    r = average;
+    g = average;
+    b = average;
+    Uint32 color = SDL_MapRGB(format, r, g, b);
+    return color;
+}
 
     /* Save Manager */
 
@@ -278,6 +337,44 @@ void reset_color()
 
 int main(void)
 {
+    // - Initialize the SDL.
+    if (SDL_Init(SDL_INIT_VIDEO) != 0)
+    {
+        errx(EXIT_FAILURE, "%s", SDL_GetError());
+    }
+
+    // - Create a window.
+     SDL_Window* window = SDL_CreateWindow("Rotation_OCR", 0, 0, INIT_WIDTH, INIT_HEIGHT,
+              SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+     if (window == NULL)
+        errx(EXIT_FAILURE, "%s", SDL_GetError());
+
+     // - Create a renderer
+     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+     if (renderer == NULL)
+        errx(EXIT_FAILURE, "%s", SDL_GetError());
+
+     // - Cree la surface depuis l'image
+     SDL_Texture* StartText = IMG_LoadTexture(renderer, "three.png");
+     if (StartText==NULL)
+        errx(EXIT_FAILURE, "%s", SDL_GetError());
+
+     int w = INIT_WIDTH;
+     int h = INIT_HEIGHT;
+     if (SDL_QueryTexture(StartText, NULL, NULL, &w, &h) != 0)
+         errx(EXIT_FAILURE, "%s", SDL_GetError());
+
+
+    //EXEC
+    SDL_Surface* Start_surface = load_image("three.png");
+
+    //SDL_SetWindowSize(window, w, h);
+
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, Start_surface);
+    if (texture==NULL)
+	    errx(EXIT_FAILURE, "%s", SDL_GetError());
+
+
 	struct DataSet data;
 	data.length = DATA_LENGTH;
 	data.data_set = malloc(sizeof(struct Data) * data.length);
@@ -340,35 +437,41 @@ int main(void)
 	
 
 	printf("\n-------------- Test -------------\n\n");
-	
-	SDL_Surface * image_surface = load_image("three.png");
 
+
+    Uint32* pixels = Start_surface->pixels;
+    SDL_PixelFormat* format = Start_surface->format;
+    SDL_LockSurface(Start_surface);
 	for (int i = 0; i < INPUTS_R; i++)
 	{
-		(&NN)->inputs[i] = data.data_set[50].input[i];
+		//(&NN)->inputs[i] = data.data_set[50].input[i];
+        (&NN)->inputs[i] = pixel_to_grayscale(pixels[i], format);
+        //printf("%f\n", (&NN)->inputs[i]);
 		//printf("data : %f\n", data.data_set[j].input[i]);
 	}
+    SDL_UnlockSurface(Start_surface);
 
 	Get_Layers_Outputs(&NN);
 
 	//Print_Matrix("Input", NN.inputs, INPUTS_R, INPUTS_C);
-	int output_label = Max_label_from_doubles(NN.outputs, OUTPUTS_R * OUTPUTS_C);
-	int expected_output_label = data.data_set[50].label[0] - '0';
+    int output_label = Max_label_from_doubles(NN.outputs, OUTPUTS_R * OUTPUTS_C);
 
-	if (output_label == expected_output_label)
-	{
-	    green();
-	    score++;
-	}
-	else
-		red();
-	printf("Expected : %d => Output : %d\n", expected_output_label, output_label);
-	reset_color();
+	printf("Expected : You now => Output : %d\n", output_label);
 	//Print_Matrix("Output", NN.outputs, OUTPUTS_R, OUTPUTS_C);
 
 	printf("\n---------------------------------\n");
 
 	free(data.data_set);
-	
+
+
+    SDL_FreeSurface(Start_surface);
+
+    //event_loop(renderer, texture);
+
+    SDL_DestroyTexture(texture);
+    SDL_DestroyRenderer(renderer);
+    //SDL_DestroyWindow(window);
+    SDL_Quit();
+
 	return 0;
 }

@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/OcrExe.dir/CMakeFiles/3.22.1/CompilerIdC/CMakeCCompilerId.c.o CMakeFiles/OcrExe.dir/functions.c.o CMakeFiles/OcrExe.dir/matrix.c.o CMakeFiles/OcrExe.dir/neural_network.c.o CMakeFiles/OcrExe.dir/user_inputs_functions.c.o -o OcrExe 

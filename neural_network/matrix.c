@@ -95,7 +95,7 @@ void Mult_Matrix(double m1[], double m2[], size_t r1, size_t c1, size_t c2, doub
 void Matrix_Sigmoid(double m[], int rows, int cols)
 {
     int size = rows*cols;
-
+    
     int i = 0;
     while (i < size)
     {

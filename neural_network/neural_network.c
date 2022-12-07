@@ -19,17 +19,17 @@
 #define OUTPUTS_R 10 // 10
 #define OUTPUTS_C 1
 
-#define EPOCHS 2000
 #define DATA_LENGTH 1000
 
 #define DELTA 0.4
+
+#define EPOCHS 5000
 
 #define XOR_DATA "XOR.csv"
 #define DIGITS_DATA "TMNIST_Data.csv"
 #define SELECTED_DATA DIGITS_DATA
 
 #define SAVE "save"
-
 
 const int INIT_WIDTH = 28;
 const int INIT_HEIGHT = 28;
@@ -431,7 +431,7 @@ int main(void)
 		//Print_Matrix("Output", NN.outputs, OUTPUTS_R, OUTPUTS_C);
 	}
 
-	printf("\n%d/100\n", (int)((double)score / (double)data.length * 100));
+	printf("\nsucces during training : %d/100\n", (int)((double)score / (double)data.length * 100));
 
 	printf("\n---------------------------------\n");
 	
@@ -456,7 +456,7 @@ int main(void)
 	//Print_Matrix("Input", NN.inputs, INPUTS_R, INPUTS_C);
     int output_label = Max_label_from_doubles(NN.outputs, OUTPUTS_R * OUTPUTS_C);
 
-	printf("Expected : You now => Output : %d\n", output_label);
+	printf("Expected : You know => Output : %d\n", output_label);
 	//Print_Matrix("Output", NN.outputs, OUTPUTS_R, OUTPUTS_C);
 
 	printf("\n---------------------------------\n");

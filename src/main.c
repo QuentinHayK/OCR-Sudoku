@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include "headers/test.h"
 #include "solver/solver.h"
+#include "gui.h"
 
 
-int main(void)
+int main(int argc, char *argv[])
 {
     Hello();
+    GUI(argc, argv);
 
     // <===================== PART 1 =====================>
     //

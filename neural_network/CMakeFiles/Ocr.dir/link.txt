@@ -1,0 +1,1 @@
+/usr/bin/cc  -std=c99 -Wall -pedantic CMakeFiles/Ocr.dir/neural_network.c.o CMakeFiles/Ocr.dir/functions.c.o CMakeFiles/Ocr.dir/matrix.c.o CMakeFiles/Ocr.dir/user_inputs_functions.c.o -o Ocr  -lm -lSDL2 -lSDL2_image -lSDL2 -lSDL2_image 

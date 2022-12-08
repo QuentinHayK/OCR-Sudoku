@@ -1,11 +1,15 @@
 #include <stdio.h>
 #include "headers/test.h"
 #include "solver/solver.h"
+#include "gui.h"
+#include "neural_network/neural_network.h"
 
 
-int main(void)
+int main(int argc, char *argv[])
 {
     Hello();
+    GUI(argc, argv);
+    //Neural_Network_Main("src/digits/one.png");
 
     // <===================== PART 1 =====================>
     //

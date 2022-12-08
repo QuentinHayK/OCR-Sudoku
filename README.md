@@ -24,7 +24,14 @@ Developped in C with ❤ by <a href="https://www.epita.fr" target="_blank"> Epit
 
 * Train a `Neural Network`
 * Test your `Neural Network`
-  - Some `data` are provided with the project
+  - Some `data` which can be loaded are provided with the project
+* Preprocessing (color)
+  - Gauss, Threshold, etc..
+* Homography
+* Edge detection
+* Cutting digits in the grid after homography
+* Resolution of a Neural Network
+* Displaying final grid on the final image
 
 ## Requirement
 ```bash
@@ -43,8 +50,6 @@ $ git clone https://github.com/QuentinHayK/OCR-Sudoku
 ## Usage
 ```bash
 # Compile code
-$ make
-
-# Run program
-$ make run
+$ ./clear.script (if needed)
+$ ./compile.script
 ```

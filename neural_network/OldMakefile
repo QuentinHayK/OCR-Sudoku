@@ -1,0 +1,26 @@
+# Makefile
+
+CC = gcc
+CPPFLAGS =
+CFLAGS = -Wall -Wextra `pkg-config --cflags sdl2 SDL2_image` -O2
+
+LDFLAGS =
+LDLIBS = `pkg-config --libs sdl2 SDL2_image` -lm -ldl
+
+SRC = functions.c user_inputs_functions.c matrix.c neural_network.c
+OBJ = ${SRC:.c=.o}
+EXEC = nn
+
+#all: 
+#	$ gcc matrix.c user_inputs_functions.c functions.c neural_network.c -o nn -Wall -Wextra -g `pkg-config --cflags sdl2 SDL2_image` -lm -ldl
+
+
+all: ${OBJ}
+	${CC} ${OBJ} -o ${EXEC}
+
+clean:
+	${RM} ${OBJ}
+	${RM} ${EXE}
+
+
+# END

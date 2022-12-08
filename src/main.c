@@ -7,7 +7,7 @@
 
 int main(int argc, char *argv[])
 {
-    Hello();
+    // Hello();
     GUI(argc, argv);
     //Neural_Network_Main("src/digits/one.png");
 
@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     
     // <===================== PART 4 =====================>
     // Resolution
-    Solve_Sudoku();
+    // Solve_Sudoku();
     
     // Displaying grid on the final Image
     

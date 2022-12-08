@@ -8,6 +8,7 @@
 #include <math.h>
 #include <ctype.h>
 #include "neural_network/neural_network.h"
+#include "solver/solver.h"
 
 
 GtkWidget *window;
@@ -15,6 +16,7 @@ GtkWidget *fixed1;
 GtkBuilder *builder;
 GtkWidget *image1;
 GtkWidget *file1;
+GtkWidget *text_res;
 
 
 int GUI(int argc, char *argv[])
@@ -33,7 +35,7 @@ int GUI(int argc, char *argv[])
     fixed1 = GTK_WIDGET(gtk_builder_get_object(builder, "fixed1"));
     image1 = GTK_WIDGET(gtk_builder_get_object(builder, "image1"));
     file1 = GTK_WIDGET(gtk_builder_get_object(builder, "file1"));
-
+    text_res = GTK_WIDGET(gtk_builder_get_object(builder, "text_res"));
 
     gtk_widget_show(window);
 
@@ -44,9 +46,15 @@ int GUI(int argc, char *argv[])
     return EXIT_SUCCESS;
 }
 
+void on_solve_clicked(GtkButton *f)
+{
+    Solve_Sudoku();
+}
+
 void on_file_set1(GtkFileChooserButton *f)
 {
     printf("loading image...\n");
+    
     gchar* filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(f));
     int hor = 150, ver = 8;
     if (image1)
@@ -55,6 +63,11 @@ void on_file_set1(GtkFileChooserButton *f)
     gtk_container_add(GTK_CONTAINER(fixed1), image1);
     gtk_widget_show(image1);
     gtk_fixed_move(GTK_FIXED(fixed1), image1, hor, ver);
-    Neural_Network_Main((char*)filename);
+    char *res = malloc(2*sizeof(char));
+    res[0] = '0' + Neural_Network_Main((char*)filename);
+    res[1] = 0;
+    gtk_label_set_text(text_res, res);
+    free(res);
+
     g_free(filename);
 }

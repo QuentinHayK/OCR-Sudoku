@@ -3,41 +3,11 @@
 <interface>
   <requires lib="gtk+" version="3.24"/>
   <object class="GtkWindow" id="window">
-    <property name="width-request">1200</property>
-    <property name="height-request">700</property>
     <property name="can-focus">False</property>
     <child>
       <object class="GtkFixed" id="fixed1">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <child>
-          <object class="GtkButton" id="button1">
-            <property name="label" translatable="yes">HELLO</property>
-            <property name="width-request">100</property>
-            <property name="height-request">49</property>
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
-            <property name="always-show-image">True</property>
-            <signal name="clicked" handler="on_button1_clicked" swapped="no"/>
-          </object>
-          <packing>
-            <property name="x">5</property>
-            <property name="y">5</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label1">
-            <property name="width-request">200</property>
-            <property name="height-request">40</property>
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-          </object>
-          <packing>
-            <property name="x">150</property>
-            <property name="y">10</property>
-          </packing>
-        </child>
         <child>
           <object class="GtkImage" id="image1">
             <property name="width-request">400</property>
@@ -53,7 +23,7 @@
         <child>
           <object class="GtkFileChooserButton" id="loader_button">
             <property name="width-request">100</property>
-            <property name="height-request">80</property>
+            <property name="height-request">40</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="title" translatable="yes"/>
@@ -61,22 +31,34 @@
           </object>
           <packing>
             <property name="x">5</property>
-            <property name="y">169</property>
+            <property name="y">5</property>
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="button2">
-            <property name="label" translatable="yes">button</property>
+          <object class="GtkLabel" id="text_res">
+            <property name="width-request">100</property>
+            <property name="height-request">80</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">label</property>
+          </object>
+          <packing>
+            <property name="x">5</property>
+            <property name="y">52</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="solve">
+            <property name="label" translatable="yes">Solve Sudoku</property>
             <property name="width-request">100</property>
             <property name="height-request">80</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
-            <signal name="clicked" handler="on_button2_clicked" swapped="no"/>
           </object>
           <packing>
             <property name="x">5</property>
-            <property name="y">265</property>
+            <property name="y">143</property>
           </packing>
         </child>
       </object>

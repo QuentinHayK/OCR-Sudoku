@@ -7,7 +7,7 @@
 int Solve_Sudoku()
 {
     char *sudo = malloc(81 * sizeof(char)+1);
-    to_array("solver/test/easy1", sudo);
+    to_array("src/solver/test/easy1", sudo);
 
     if (!is_valid(sudo))
     {

@@ -424,5 +424,5 @@ int Neural_Network_Main(char* digit_png)
     //SDL_DestroyWindow(window);
     SDL_Quit();
 
-	return 0;
+	return output_label;
 }

@@ -70,4 +70,4 @@ void Learning(struct Neural_Network * NN, struct DataSet data);
 void red();
 void green();
 void reset_color();
-int Neural_Network_Main(void);
+int Neural_Network_Main(char* digit_png);

@@ -7,13 +7,14 @@
 #include <gtk/gtkx.h>
 #include <math.h>
 #include <ctype.h>
+#include "neural_network/neural_network.h"
 
 
 GtkWidget *window;
 GtkWidget *fixed1;
-GtkWidget *button1;
-GtkWidget *label1;
 GtkBuilder *builder;
+GtkWidget *image1;
+GtkWidget *file1;
 
 
 int GUI(int argc, char *argv[])
@@ -30,17 +31,30 @@ int GUI(int argc, char *argv[])
     gtk_builder_connect_signals(builder, NULL);
 
     fixed1 = GTK_WIDGET(gtk_builder_get_object(builder, "fixed1"));
-    button1 = GTK_WIDGET(gtk_builder_get_object(builder, "button1"));
-    label1 = GTK_WIDGET(gtk_builder_get_object(builder, "label1"));
+    image1 = GTK_WIDGET(gtk_builder_get_object(builder, "image1"));
+    file1 = GTK_WIDGET(gtk_builder_get_object(builder, "file1"));
+
 
     gtk_widget_show(window);
+
+    image1 = NULL;
 
     gtk_main();
 
     return EXIT_SUCCESS;
 }
 
-void on_button1_clicked(GtkButton *b)
+void on_file_set1(GtkFileChooserButton *f)
 {
-    gtk_label_set_text(GTK_LABEL(label1), (const gchar*) "Hello World");
+    printf("loading image...\n");
+    gchar* filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(f));
+    int hor = 150, ver = 8;
+    if (image1)
+        gtk_container_remove(GTK_CONTAINER(fixed1), image1); // remove old slide
+    image1 = gtk_image_new_from_file(filename);
+    gtk_container_add(GTK_CONTAINER(fixed1), image1);
+    gtk_widget_show(image1);
+    gtk_fixed_move(GTK_FIXED(fixed1), image1, hor, ver);
+    Neural_Network_Main((char*)filename);
+    g_free(filename);
 }

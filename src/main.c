@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 {
     Hello();
     GUI(argc, argv);
-    Neural_Network_Main();
+    //Neural_Network_Main("src/digits/one.png");
 
     // <===================== PART 1 =====================>
     //

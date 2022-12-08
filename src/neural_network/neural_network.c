@@ -285,7 +285,7 @@ void reset_color()
   printf("\033[0m");
 }
 
-int Neural_Network_Main(void)
+int Neural_Network_Main(char* digit_png)
 {
     // - Initialize the SDL.
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -305,7 +305,7 @@ int Neural_Network_Main(void)
        errx(EXIT_FAILURE, "%s", SDL_GetError());
 
     // - Cree la surface depuis l'image
-    SDL_Texture* StartText = IMG_LoadTexture(renderer, DIGIT_PNG);
+    SDL_Texture* StartText = IMG_LoadTexture(renderer, digit_png);
     if (StartText==NULL)
        errx(EXIT_FAILURE, "%s", SDL_GetError());
 
@@ -316,7 +316,7 @@ int Neural_Network_Main(void)
 
 
     //EXEC
-    SDL_Surface* Start_surface = load_image(DIGIT_PNG);
+    SDL_Surface* Start_surface = load_image(digit_png);
 
     //SDL_SetWindowSize(window, w, h);
 
@@ -380,7 +380,7 @@ int Neural_Network_Main(void)
 		reset_color();
 		//Print_Matrix("Output", NN.outputs, OUTPUTS_R, OUTPUTS_C);
 	}
-
+    
 	printf("\nsucces during training : %d/100\n", (int)((double)score / (double)data.length * 100));
 
 	printf("\n---------------------------------\n");

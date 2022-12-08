@@ -3,12 +3,14 @@
 #include "solver/solver.h"
 #include "gui.h"
 #include "neural_network/neural_network.h"
+#include "affichage/affichage.h"
 
 
 int main(int argc, char *argv[])
 {
     // Hello();
     GUI(argc, argv);
+    Affichage_Main();
     //Neural_Network_Main("src/digits/one.png");
 
     // <===================== PART 1 =====================>

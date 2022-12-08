@@ -54,20 +54,20 @@ struct Neural_Network
 
 
 /* Methods */
-void draw(SDL_Renderer* renderer, SDL_Texture* texture);
-void event_loop(SDL_Renderer* renderer, SDL_Texture* texture);
-SDL_Surface* load_image (const char* path);
-Uint8 pixel_to_grayscale(Uint32 pixel_color, SDL_PixelFormat* format);
-void Export_NN(struct Neural_Network * NN, char file[]);
-void Import_NN(struct Neural_Network * NN, char file[]);
-int Max_label_from_doubles(double *output, int len);
-double Node_Cost(double output, double desired_output);
-double Node_Cost_Derivative(double output, double desired_output);
-void Get_Layers_Outputs(struct Neural_Network * NN);
-double Calculate_Cost(struct Neural_Network * NN, struct Data data);
-double Calculate_Total_Cost(struct Neural_Network NN, struct DataSet data_set);
-void Learning(struct Neural_Network * NN, struct DataSet data);
-void red();
-void green();
-void reset_color();
+//void draw(SDL_Renderer* renderer, SDL_Texture* texture);
+//void event_loop(SDL_Renderer* renderer, SDL_Texture* texture);
+//SDL_Surface* load_image (const char* path);
+//Uint8 pixel_to_grayscale(Uint32 pixel_color, SDL_PixelFormat* format);
+//void Export_NN(struct Neural_Network * NN, char file[]);
+//void Import_NN(struct Neural_Network * NN, char file[]);
+//int Max_label_from_doubles(double *output, int len);
+//double Node_Cost(double output, double desired_output);
+//double Node_Cost_Derivative(double output, double desired_output);
+//void Get_Layers_Outputs(struct Neural_Network * NN);
+//double Calculate_Cost(struct Neural_Network * NN, struct Data data);
+//double Calculate_Total_Cost(struct Neural_Network NN, struct DataSet data_set);
+//void Learning(struct Neural_Network * NN, struct DataSet data);
+//void red();
+//void green();
+//void reset_color();
 int Neural_Network_Main(char* digit_png);

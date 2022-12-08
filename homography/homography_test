@@ -1,0 +1,8 @@
+test homography:
+
+./homographic "images/test1.png" 391 100 14 271 347 624 747 298 100 100 100 650 650 650 650 100
+
+
+essayez de voir la size de la dest_surface;
+régler la fonction de matrice inverse;
+pour etre sûr de ce qui fonctionne pas, faire des printf de H et P^-1 avant l'event loop.

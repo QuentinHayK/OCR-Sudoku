@@ -50,8 +50,6 @@ $ git clone https://github.com/QuentinHayK/OCR-Sudoku
 ## Usage
 ```bash
 # Compile code
-$ make
-
 $ ./clear.script (if needed)
 $ ./compile.script
 ```

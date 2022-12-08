@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <gtk/gtk.h>
-#include <gtk/gtkx.h>
+//#include <gtk/gtkx.h>
 #include <math.h>
 #include <ctype.h>
 #include "neural_network/neural_network.h"

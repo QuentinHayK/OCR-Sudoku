@@ -1,4 +1,3 @@
-#!/bin/bash
 rm Ocr
 rm -rf CMakeFiles
 rm CMakeCache.txt

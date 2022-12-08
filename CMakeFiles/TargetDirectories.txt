@@ -1,0 +1,3 @@
+/home/tom.brossard/afs/SPE/OCR-Sudoku/CMakeFiles/Ocr.dir
+/home/tom.brossard/afs/SPE/OCR-Sudoku/CMakeFiles/edit_cache.dir
+/home/tom.brossard/afs/SPE/OCR-Sudoku/CMakeFiles/rebuild_cache.dir

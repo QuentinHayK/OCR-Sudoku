@@ -376,7 +376,8 @@ int Neural_Network_Main(char* digit_png)
 		}
 		else
 			red();
-		printf("Expected : %d => Output : %d\n", expected_output_label, output_label);
+		if (j % 100 == 0)
+		    printf("[%d] Expected : %d => Output : %d\n", j, expected_output_label, output_label);
 		reset_color();
 		//Print_Matrix("Output", NN.outputs, OUTPUTS_R, OUTPUTS_C);
 	}

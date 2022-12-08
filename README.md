@@ -52,6 +52,6 @@ $ git clone https://github.com/QuentinHayK/OCR-Sudoku
 # Compile code
 $ make
 
-# ./clear.script (if needed)
+$ ./clear.script (if needed)
 $ ./compile.script
 ```

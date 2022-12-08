@@ -35,22 +35,22 @@ const int INIT_WIDTH = 28;
 const int INIT_HEIGHT = 28;
 
 
-    struct Neural_Network
-    {
-	    double inputs[INPUTS_R * INPUTS_C];
+struct Neural_Network
+{
+	double inputs[INPUTS_R * INPUTS_C];
 
-	    double w1[INPUTS_R * HIDDENS_R];
-	    double w1_derivative[INPUTS_R * HIDDENS_R];
-	    double b1[HIDDENS_R];
-	    double b1_derivative[HIDDENS_R];
-	    double hiddens[HIDDENS_R * HIDDENS_C];
+	double w1[INPUTS_R * HIDDENS_R];
+	double w1_derivative[INPUTS_R * HIDDENS_R];
+	double b1[HIDDENS_R];
+	double b1_derivative[HIDDENS_R];
+	double hiddens[HIDDENS_R * HIDDENS_C];
 
-	    double w2[OUTPUTS_R * HIDDENS_R];
-	    double w2_derivative[OUTPUTS_R * HIDDENS_R];
-	    double b2[OUTPUTS_R];
-	    double b2_derivative[OUTPUTS_R];
-	    double outputs[OUTPUTS_R * OUTPUTS_C];
-    };
+	double w2[OUTPUTS_R * HIDDENS_R];
+	double w2_derivative[OUTPUTS_R * HIDDENS_R];
+	double b2[OUTPUTS_R];
+	double b2_derivative[OUTPUTS_R];
+	double outputs[OUTPUTS_R * OUTPUTS_C];
+};
 
 void draw(SDL_Renderer* renderer, SDL_Texture* texture)
 {
@@ -91,19 +91,16 @@ void event_loop(SDL_Renderer* renderer, SDL_Texture* texture)
 
 
 
-	SDL_Surface* load_image (const char* path)
-	{
-		SDL_Surface* surface_temp = IMG_Load(path);
-		if (surface_temp == NULL)
-			errx(EXIT_FAILURE, "failed loading image : %s", SDL_GetError());
+SDL_Surface* load_image (const char* path)
+{
+	SDL_Surface* surface_temp = IMG_Load(path);
+	if (surface_temp == NULL)
+		errx(EXIT_FAILURE, "failed loading image : %s", SDL_GetError());
 
-		SDL_Surface* surface = SDL_ConvertSurfaceFormat(surface_temp, SDL_PIXELFORMAT_RGB888      , 0);
-		SDL_FreeSurface (surface_temp);
-		return surface;
-
-		SDL_FreeSurface(surface_temp);
-		return surface;
-	}
+	SDL_Surface* surface = SDL_ConvertSurfaceFormat(surface_temp, SDL_PIXELFORMAT_RGB888, 0);
+	SDL_FreeSurface (surface_temp);
+	return surface;
+}
 
 Uint8 pixel_to_grayscale(Uint32 pixel_color, SDL_PixelFormat* format)
 {
@@ -120,139 +117,139 @@ Uint8 pixel_to_grayscale(Uint32 pixel_color, SDL_PixelFormat* format)
     return color;
 }
 
-    /* Save Manager */
+/* Save Manager */
 
-    void Export_NN(struct Neural_Network * NN, char file[])
+void Export_NN(struct Neural_Network * NN, char file[])
+{
+	FILE *out = fopen(file, "w");
+
+	for (int i = 0; i < INPUTS_R * HIDDENS_R; i++)
+	    fprintf(out, "%f\n", NN->w1[i]);
+
+    for (int i = 0; i < HIDDENS_R; i++)
+	    fprintf(out, "%f\n", NN->b1[i]);
+
+    for (int i = 0; i < OUTPUTS_R * HIDDENS_R; i++)
+	    fprintf(out, "%f\n", NN->w2[i]);
+
+    for (int i = 0; i < OUTPUTS_R; i++)
+	    fprintf(out, "%f\n", NN->b2[i]);
+
+
+    fclose(out);
+}
+
+void Import_NN(struct Neural_Network * NN, char file[])
+{
+	FILE * in = fopen(file, "r");
+
+    char line[1000];
+    char *rest;
+
+    for (int i = 0; i < INPUTS_R * HIDDENS_R; i++)
     {
-	    FILE *out = fopen(file, "w");
-
-	    for (int i = 0; i < INPUTS_R * HIDDENS_R; i++)
-		    fprintf(out, "%f\n", NN->w1[i]);
-
-	    for (int i = 0; i < HIDDENS_R; i++)
-		    fprintf(out, "%f\n", NN->b1[i]);
-
-	    for (int i = 0; i < OUTPUTS_R * HIDDENS_R; i++)
-		    fprintf(out, "%f\n", NN->w2[i]);
-
-	    for (int i = 0; i < OUTPUTS_R; i++)
-		    fprintf(out, "%f\n", NN->b2[i]);
-
-
-	    fclose(out);
+	    fgets(line, 1000, in);
+	    NN->w1[i] = strtod(line, &rest);
     }
 
-    void Import_NN(struct Neural_Network * NN, char file[])
+    for (int i = 0; i < HIDDENS_R; i++)
     {
-	    FILE * in = fopen(file, "r");
-
-	    char line[1000];
-	    char *rest;
-
-	    for (int i = 0; i < INPUTS_R * HIDDENS_R; i++)
-	    {
-		    fgets(line, 1000, in);
-		    NN->w1[i] = strtod(line, &rest);
-	    }
-
-	    for (int i = 0; i < HIDDENS_R; i++)
-	    {
-		    fgets(line, 1000, in);
-		    NN->b1[i] = strtod(line, &rest);
-	    }
-
-	    for (int i = 0; i < OUTPUTS_R * HIDDENS_R; i++)
-	    {
-		    fgets(line, 1000, in);
-		    NN->w2[i] = strtod(line, &rest);
-	    }
-
-	    for (int i = 0; i < OUTPUTS_R; i++)
-	    {
-		    fgets(line, 1000, in);
-		    NN->b2[i] = strtod(line, &rest);
-	    }
-
-	    fclose(in);
+	    fgets(line, 1000, in);
+	    NN->b1[i] = strtod(line, &rest);
     }
 
-
-    /* --------- FUNCTIONS --------- */
-
-    int Max_label_from_doubles(double *output, int len)
+    for (int i = 0; i < OUTPUTS_R * HIDDENS_R; i++)
     {
-	    double max = output[0];
-	    int max_i = 0;
-
-	    for (int i = 1; i < len; i++)
-	    {
-		    if (output[i] > max)
-		    {
-			    max = output[i];
-			    max_i = i;
-		    }
-	    }
-
-	    return max_i;
+	    fgets(line, 1000, in);
+	    NN->w2[i] = strtod(line, &rest);
     }
 
-    double Node_Cost(double output, double desired_output) {
-	    double error = output - desired_output;
-	    return error * error;
-    }
-
-    double Node_Cost_Derivative(double output, double desired_output) {
-	    return 2 * (output - desired_output);
-    }
-
-    void Get_Layers_Outputs(struct Neural_Network * NN)
+    for (int i = 0; i < OUTPUTS_R; i++)
     {
-	    /* Layer 1 */
-	    Mult_Matrix(NN->w1, NN->inputs, HIDDENS_R, INPUTS_R, INPUTS_C, NN->hiddens);
-	    Add_Matrix(NN->hiddens, NN->b1, HIDDENS_R, HIDDENS_C, NN->hiddens);
-	    Matrix_Sigmoid(NN->hiddens, HIDDENS_R, HIDDENS_C);
+	    fgets(line, 1000, in);
+	    NN->b2[i] = strtod(line, &rest);
+    }
 
-	    /* Layer 2 */
-	    Mult_Matrix(NN->w2, NN->hiddens, OUTPUTS_R, HIDDENS_R, HIDDENS_C, NN->outputs);
+    fclose(in);
+}
+
+
+/* --------- FUNCTIONS --------- */
+
+int Max_label_from_doubles(double *output, int len)
+{
+    double max = output[0];
+    int max_i = 0;
+
+    for (int i = 1; i < len; i++)
+    {
+	    if (output[i] > max)
+	    {
+		    max = output[i];
+		    max_i = i;
+	    }
+    }
+
+    return max_i;
+}
+
+double Node_Cost(double output, double desired_output) {
+    double error = output - desired_output;
+    return error * error;
+}
+
+double Node_Cost_Derivative(double output, double desired_output) {
+    return 2 * (output - desired_output);
+}
+
+void Get_Layers_Outputs(struct Neural_Network * NN)
+{
+    /* Layer 1 */
+	Mult_Matrix(NN->w1, NN->inputs, HIDDENS_R, INPUTS_R, INPUTS_C, NN->hiddens);
+	Add_Matrix(NN->hiddens, NN->b1, HIDDENS_R, HIDDENS_C, NN->hiddens);
+	Matrix_Sigmoid(NN->hiddens, HIDDENS_R, HIDDENS_C);
+
+    /* Layer 2 */
+    Mult_Matrix(NN->w2, NN->hiddens, OUTPUTS_R, HIDDENS_R, HIDDENS_C, NN->outputs);
 	Add_Matrix(NN->outputs, NN->b2, OUTPUTS_R, OUTPUTS_C, NN->outputs);
 	Matrix_Sigmoid(NN->outputs, OUTPUTS_R, OUTPUTS_C);
-    }
+}
 
-    double Calculate_Cost(struct Neural_Network * NN, struct Data data)
-    {
-	    double cost = 0;
-	    
-	    for (int i = 0; i < INPUTS_R; i++)
-	    {
-		    NN->inputs[i] = data.input[i];
-	    }
+double Calculate_Cost(struct Neural_Network * NN, struct Data data)
+{
+	double cost = 0;
 
-	    Get_Layers_Outputs(NN);
-
-	    for (int i = 0; i < OUTPUTS_R; i++)
-	    {
-		    cost += Node_Cost(NN->outputs[i], data.expected_output[i]);
-	    }
-
-	    return cost;
-    }
-
-    double Calculate_Total_Cost(struct Neural_Network NN, struct DataSet data_set)
-    {
-	    double total_cost = 0;
-
-	    for (int i = 0; i < data_set.length; i++)
-	    {
-		    total_cost += Calculate_Cost(&NN, data_set.data_set[i]);
-	    }
-
-	    return total_cost;
-    }
-
-    void Learning(struct Neural_Network * NN, struct DataSet data)
-    {
-	    for (int epoch = 1; epoch <= EPOCHS; epoch++)
+    for (int i = 0; i < INPUTS_R; i++)
 	{
+		NN->inputs[i] = data.input[i];
+	}
+
+	Get_Layers_Outputs(NN);
+
+	for (int i = 0; i < OUTPUTS_R; i++)
+	{
+		cost += Node_Cost(NN->outputs[i], data.expected_output[i]);
+	}
+
+	return cost;
+}
+
+double Calculate_Total_Cost(struct Neural_Network NN, struct DataSet data_set)
+{
+	double total_cost = 0;
+
+	for (int i = 0; i < data_set.length; i++)
+    {
+	    total_cost += Calculate_Cost(&NN, data_set.data_set[i]);
+	}
+
+	return total_cost;
+}
+
+void Learning(struct Neural_Network * NN, struct DataSet data)
+{
+	for (int epoch = 1; epoch <= EPOCHS; epoch++)
+    {
 	    Reset_Matrix(INPUTS_R, HIDDENS_R, NN->w1_derivative);
 	    Reset_Matrix(HIDDENS_R, 1, NN->b1_derivative);     
 	    Reset_Matrix(OUTPUTS_R, HIDDENS_R, NN->w2_derivative);
@@ -344,29 +341,29 @@ int main(void)
     }
 
     // - Create a window.
-     SDL_Window* window = SDL_CreateWindow("Rotation_OCR", 0, 0, INIT_WIDTH, INIT_HEIGHT,
-              SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-     if (window == NULL)
-        errx(EXIT_FAILURE, "%s", SDL_GetError());
+    SDL_Window* window = SDL_CreateWindow("Rotation_OCR", 0, 0, INIT_WIDTH, INIT_HEIGHT,
+             SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+    if (window == NULL)
+       errx(EXIT_FAILURE, "%s", SDL_GetError());
 
-     // - Create a renderer
-     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-     if (renderer == NULL)
-        errx(EXIT_FAILURE, "%s", SDL_GetError());
+    // - Create a renderer
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if (renderer == NULL)
+       errx(EXIT_FAILURE, "%s", SDL_GetError());
 
-     // - Cree la surface depuis l'image
-     SDL_Texture* StartText = IMG_LoadTexture(renderer, "three.png");
-     if (StartText==NULL)
-        errx(EXIT_FAILURE, "%s", SDL_GetError());
+    // - Cree la surface depuis l'image
+    SDL_Texture* StartText = IMG_LoadTexture(renderer, "digit_to_recognize.png");
+    if (StartText==NULL)
+       errx(EXIT_FAILURE, "%s", SDL_GetError());
 
-     int w = INIT_WIDTH;
-     int h = INIT_HEIGHT;
-     if (SDL_QueryTexture(StartText, NULL, NULL, &w, &h) != 0)
-         errx(EXIT_FAILURE, "%s", SDL_GetError());
+    int w = INIT_WIDTH;
+    int h = INIT_HEIGHT;
+    if (SDL_QueryTexture(StartText, NULL, NULL, &w, &h) != 0)
+        errx(EXIT_FAILURE, "%s", SDL_GetError());
 
 
     //EXEC
-    SDL_Surface* Start_surface = load_image("three.png");
+    SDL_Surface* Start_surface = load_image("digit_to_recognize.png");
 
     //SDL_SetWindowSize(window, w, h);
 
